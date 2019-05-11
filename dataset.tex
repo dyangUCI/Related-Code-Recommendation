@@ -1,0 +1,18 @@
+\section{Dataset}
+\label{sec:dataset}
+In this paper, we apply our approach to Stack Overflow (SO) code snippets and GitHub projects. We use code snippets in SO as our pool of user inputs and Java projects in GitHub as our code base. We choose these two datasets not only because their popularity within the programming community, but also because they are part of a larger system of software production. The same users that rely on the hosting and management characteristics of GitHub often have difficulties and need help on the implementation of their computer programs, seek support on SO for their specific problems, or hints of solutions from ones with a degree of similarity, and return to GitHub to apply the knowledge acquired. Previous work [MSR17, ICSE19] have shown the copy-paste behaviors and possible adaptations between SO and GitHub. Our approach will help developers when browsing SO. The use scenario will be: when a user is interested in a code snippet in SO, we recommend its related code fragments from GitHub, in the purpose of showing what other code fragments he may also check. 
+
+
+\subsection{GitHub}
+We downloaded the Github Java projects by using the metadata provided by GHTorrent. GHTorrent is a scalable, offline mirror of data offered through the Github REST API, available to the research community as a service. It provides access to all the meta-data from GitHub, such as number of stars or commiters, main languages, time points relevant to the projects and so on.
+
+Since GitHub has many toy projects that do not adequately reflect software engineering practices [19], we only consider GitHub projects that have at least five stars. To account for internal duplication in GitHub [20], we choose non-fork projects only and further remove duplicated GitHub files using the same file hashing method as in [20], since such file duplication may skew our analysis. As a result, we download 50,826 non-forked Java repositories with at least five stars from GitTorrent [21]. After deduplication, 5,825,727 distinct Java files remain.
+
+
+\subsection{Stack Overflow}
+From the SO dump taken in October 2016, we extract 312,219 answer posts that have java or android tags and also contain code snippets in the <code> markdown. We consider code snippets in answer posts only, since snippets in question posts are rarely used as examples. 
+
+Since SO snippets are often free-standing statements with low parsable rates, we used a customized pre-processor befor tokenization. We add dummy class and method definitions, and semicolons after statements, as needed. For snippets contain multiple methods, we chunk them into individual ones. We keep only parsable SO snippets after pre-processing. Prior work finds that larger SO snippets have more meaningful clones in GitHub [26]. Hence, we choose to study SO examples with no less than 50 tokens after tokenization.
+
+\subsection{Result for similar code detection}
+We run SoucererCC to find all similar pairs between SO and GitHub. As a result, we get 21,207 SO methods that have one or more similar code fragments in GitHub.
