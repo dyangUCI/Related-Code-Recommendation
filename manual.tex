@@ -1,4 +1,52 @@
 \section{Manual Examination}
 \label{sec:manual}
-\subsection{Precision}
-\subsection{Categorization}
+
+\subsection{Manual analysis and categorization}
+We randomly select 30 SO snippets with its recommended related code fragments, and manually examine whether the recommended code fragments are related to the SO input or not, and categorize why we call the relationship a relevant one.
+
+We use $Precision@k$ metric to evaluate \tool\  which is defined as follows:
+\begin{equation}
+Precision@k = \frac{1}{N}\sum_{i=1}^{N}\tfrac{\left | relevant_{i,k} \right |}{k}
+\end{equation}
+where $\left | relevant_{i,k} \right |$ represents the number of positive related results in the top $k$ results for query $i$, $N$ is the number queries we evaluate, which is $30$. $k$ is the number of top results we examine, here we use $k=1$ and $k=3$.
+
+\tool\ achieves 73\% and B\% for $Precision@1$ and $Precision@3$ respectively.
+We find the following types of relevance in our sample set.
+\begin{itemize}
+	\item A complementary method which adds more functionality
+	\item A supplmentary method that help with or get help from the query
+	\item A different algorithm for the query 
+	\item A more generalized or complete implementation for the query	
+\end{itemize}
+
+Insert examples here.
+
+\subsection{Comparison with code search engines}
+In this experiment we compare the recommendation results of \tool\ with those from code search engines. We focus on Google search and Stack Overflow search since these are popular destinations when people look for programming assistance. We also compare to \textit{FaCoy}, a code-to-code-search engine which proved to have state-of-art precision. In the experiments above, we get 22 valid related code fragments as top 1 result recommended by \tool. We randomly select 10 snippets from them. For \textit{FaCoy}, we use the snippets directly as search queries since it supports code-to-code search. For Google and SO search engine, we use the original quesion title for the SO snippet as the search query. We show that whether the search engines can also retrieve similar related code fragments as \tool. 
+
+Table \ref{tab:so-questions} lists the titles of SO posts used as search queries in our experiment.
+
+\begin{table}
+	\begin{center}
+		\begin{tabular}{ c|c } 
+			Query & Question title \\ 
+			Q1 &  1\\\hline 
+			Q2 &  2 \\ \hline
+			Q3 &  3 \\ \hline
+			Q4 &  4 \\ \hline
+			Q5 &  5 \\ \hline
+			Q6 &  6 \\ \hline
+			Q7 &  7	\\ \hline
+			Q8 &  8	\\ \hline
+			Q9 &  9	\\ \hline
+			Q10 & 10\\ \hline
+		\end{tabular}		
+	\end{center}
+	\caption{Queries for Google and SO}
+	\label{tab:so-questions}
+\end{table}
+
+One example search query for \textit{FaCoy} is shown in List ~\ref{lst:snippet-query}.
+\begin{lstlisting}[label={lst:snippet-query}]
+	sample
+\end{lstlisting}
