@@ -9,8 +9,36 @@
 \usepackage{color}
 \usepackage{xcolor}
 \usepackage{listings}
+\usepackage{booktabs}
+\usepackage{soul}
 
 \newcommand{\ttt}[1]{\tt\small{#1}}
+\newcommand{\tool}{\texttt{CodeAid}}
+\lstset{
+	% numbers=left,
+	% numberstyle=\tiny,
+	% backgroundcolor=\color{light-gray},
+	basicstyle=\scriptsize\ttfamily,
+	breaklines=true,
+	breakatwhitespace=true,
+	captionpos=b,
+	columns=flexible,
+	escapeinside={(*@}{@*)},
+	frame=tb,
+	framerule=0.6pt,
+	% xleftmargin=\parindent,
+	% xrightmargin=\parindent,
+	language=Java,
+	% numbersep=5pt,
+	showstringspaces=false
+}
+\newcommand{\explanation}[1]{
+	\parbox{0.45\textwidth}{
+		\rule{0.4\textwidth}{0.1pt}
+		\vspace*{0.5em} \\
+		{#1}
+	}
+}
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
@@ -18,7 +46,7 @@
 
 \newcommand\todo[1]{\textcolor{red}{TODO: #1}}
 
-\title{CodeAid: Recommeding Related Code Fragments
+\title{CodeAid: Recommeding Related Code
 %	\\
 %{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
 %should not be used}
@@ -69,7 +97,7 @@ Finding similar code components for a given query is a popular task to help prog
 
 In this paper, we propose a code recommendation approach that returns relevant code fragments in our search code base for a code query. We use GitHub Java projects as our search code base. Given a code method, we use a code clone tool to detect all its similar counterparts from different GitHub files, then recommend other methods that appear most times among these GitHub files as our relevant code fragments.
 
-We apply our approach on Stack Overflow (SO) code examples and build a Chrome Extension for SO. Prior studies show that SO code examples are often incomplete, our code recommendation approach is helpful when developers browse SO. In this paper, we provide a query code base with 100 SO code snippets and return their related, auxiliary code fragments. We manually evaluate the relevance of recommended GitHub code. We also categorize the relationship between the recommended code and the SO query snippet. We compare our approach with top SO search results and Google search results to show that traditional search techniques may not achieve retrieving relevant results as we proposed.
+We apply our approach on Stack Overflow (SO) code examples. Prior studies show that SO code examples are often incomplete, our code recommendation approach is helpful when developers browse SO. In this paper, we provide a query code base with 11,110 SO code snippets and return their related code fragments. We manually evaluate the relevance of recommended GitHub code. We also categorize the relationship between the recommended code and the SO query snippet. We compare our approach with other search engines to show that code search techniques may not achieve retrieving relevant results as we proposed.
 
 \end{abstract}
 
@@ -77,14 +105,11 @@ We apply our approach on Stack Overflow (SO) code examples and build a Chrome Ex
 code recommendation, related code, code search, mining software repositories
 \end{IEEEkeywords}
 
-\newcommand{\tool}{CodeAid}
-
 \input{intro}
 \input{motivating}
 \input{approach}
 \input{dataset}
 \input{eval}
-\input{comparison}
 \input{related}
 
 

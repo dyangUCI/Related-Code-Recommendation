@@ -1,0 +1,214 @@
+% Set listing style for table
+\lstset{
+	frame=none,
+    aboveskip=0pt,
+    belowskip=0pt,
+    basicstyle=\tiny\ttfamily,
+}
+\begin{table*}\scriptsize
+\caption{related code recommendation examples}
+\label{tab:intro-examples}
+
+\setlength{\tabcolsep}{0.01\textwidth}
+\begin{tabular}{@{}p{0.49\textwidth}p{0.49\textwidth}@{}}
+\toprule
+Query Code Snippet & Recommended Related Code \\
+\midrule
+
+
+
+\begin{lstlisting}
+public static boolean unpackZip(String path, String zipname, String targetDirectory) {
+	InputStream is;
+	ZipInputStream zis;
+	try {
+		String filename;
+		is = new FileInputStream(path + zipname);
+		zis = new ZipInputStream(new BufferedInputStream(is));
+		ZipEntry ze;
+		byte[] buffer = new byte[1024];
+		int count;
+
+		while ((ze = zis.getNextEntry()) != null) {
+			filename = ze.getName();
+
+			if (ze.isDirectory()) {
+				File fmd = new File(targetDirectory + filename);
+				fmd.mkdirs();
+				continue;
+			}
+
+			FileOutputStream fout = new FileOutputStream(targetDirectory + filename);
+
+			while ((count = zis.read(buffer)) != -1) {
+				fout.write(buffer, 0, count);
+			}
+
+			fout.close();
+			zis.closeEntry();
+		}
+
+		zis.close();
+	} catch (IOException e) {
+		e.printStackTrace();
+		return false;
+	}
+
+	return true;
+}
+\end{lstlisting}
+%\vspace*{1em}
+%\explanation{
+%    \emph{Example A: Configuring Objects.}
+%    \begin{itemize}[leftmargin=*]
+%        \item This code snippet~\cite{SO:underline} adds underline to a piece of text.
+%        \item The recommended code suggests adding a callback handler to pop up a dialog once the underlined text is touched upon.
+%        \item \textbf{Intersected from a cluster of 2 methods}~\cite{GH:intro5, GH:intro6}.
+%    \end{itemize}
+%}
+
+&
+\begin{lstlisting}
+public static void zip(String baseFolder, List<File> files, String zipFile) {
+	try  {
+		BufferedInputStream origin = null;
+		FileOutputStream dest = new FileOutputStream(zipFile);
+
+		ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
+		byte data[] = new byte[BUFFER];
+
+		for (File file : files) {
+			FileInputStream fi = new FileInputStream(file);
+			origin = new BufferedInputStream(fi, BUFFER);
+			String relativeFileName = file.getAbsolutePath().replace(baseFolder + File.separator , """");
+			ZipEntry entry = new ZipEntry(relativeFileName);
+			out.putNextEntry(entry);
+			int count;
+			while ((count = origin.read(data, 0, BUFFER)) != -1) {
+				out.write(data, 0, count);
+			}
+			origin.close();
+		}
+
+		out.close();
+	} catch(Exception e) {
+		e.printStackTrace();
+	}
+
+}
+\end{lstlisting}
+\\
+
+\bottomrule
+
+\begin{lstlisting}
+private void queueJob(final String url, final ImageView imageView,final Drawable placeholder) {
+	/* Create handler in UI thread. */
+	final Handler handler = new Handler() {
+	@Override
+	public void handleMessage(Message msg) {
+		String tag = mImageViews.get(imageView);
+			if (tag != null && tag.equals(url)) {
+				if (imageView.isShown())
+					if (msg.obj != null) {
+						imageView.setImageDrawable((Drawable) msg.obj);
+					} else {
+					imageView.setImageDrawable(placeholder);
+					//Log.d(null, "fail " + url);
+					}
+				}
+			}
+	};
+
+	mThreadPool.submit(new Runnable() {
+		@Override
+		public void run() {
+			final Drawable bmp = downloadDrawable(url);
+			// if the view is not visible anymore, the image will be ready for next time in cache
+			if (imageView.isShown())
+			{
+				Message message = Message.obtain();
+				message.obj = bmp;
+				//Log.d(null, "Item downloaded: " + url);
+
+				handler.sendMessage(message);
+			}
+		}
+	});
+}
+\end{lstlisting}
+
+
+&
+
+
+\begin{lstlisting}
+public void loadDrawable(final String url, final ImageView imageView) {
+	imageViews.put(imageView, url);
+	Drawable drawable = getDrawableFromCache(url);
+	// check in UI thread, so no concurrency issues
+	if (drawable != null) {
+		Log.d(null, "Item loaded from cache: " + url);
+		imageView.setImageDrawable(drawable);
+	} else {
+		imageView.setImageDrawable(placeholder);
+		queueJob(url, imageView);
+	}
+}
+\end{lstlisting}
+
+
+
+\\
+
+
+\bottomrule
+
+\begin{lstlisting}
+
+\end{lstlisting}
+
+&
+\begin{lstlisting}
+
+\end{lstlisting}
+
+\\
+
+\bottomrule
+
+\begin{lstlisting}
+
+\end{lstlisting}
+
+&
+\begin{lstlisting}
+
+\end{lstlisting}
+% https://github.com/front-line-tech/background-service-lib/blob/master/SampleService/servicelib/src/main/java/com/flt/servicelib/AbstractPermissionExtensionAppCompatActivity.java#L53
+% https://github.com/brarcher/video-transcoder/blob/master/app/src/main/java/protect/videotranscoder/activity/MainActivity.java#L1597
+\\
+
+\bottomrule
+
+\begin{lstlisting}
+
+\end{lstlisting}
+
+&
+\begin{lstlisting}
+
+\end{lstlisting}
+
+\\
+
+\bottomrule
+\end{tabular}
+\end{table*}
+
+% Reset listing style
+\lstset{
+	frame=tb,
+    aboveskip=\medskipamount,
+    belowskip=\medskipamount,
+}
