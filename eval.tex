@@ -16,7 +16,7 @@ Precision@k = \frac{1}{N}\sum_{i=1}^{N}\tfrac{\left | relevant_{i,k} \right |}{k
 \end{equation}
 where $\left | relevant_{i,k} \right |$ represents the number of positive related results in the top $k$ results for query $i$, $N$ is the number queries we evaluate, which is $30$. $k$ is the number of top results we examine, here we use $k=1$ and $k=3$.
 
-\tool\ achieves 80\% and 78.9\% for $Precision@1$ and $Precision@3$ respectively. That is to say, for the 30 top 1 recommended results, 24 of them are manual examined as related, for the 90 top 3 recommended resutls, 71 of them are related.
+\tool\ achieves 80\% and 75.6\% for $Precision@1$ and $Precision@3$ respectively. That is to say, for the 30 top 1 recommended results, 24 of them are manual examined as related, for the 90 top 3 recommended resutls, 68 of them are related.
 
 We find the following types of relevance in our sample set.
 \begin{itemize}
@@ -32,7 +32,7 @@ We find the following types of relevance in our sample set.
 			Complementary method &  12 & 33\\\hline 
 			Supplementary method &  11 & 31 \\ \hline
 			Different implementation &  1 & 4 \\ \hline
-			Not related &6 & 19
+			Not related & 6 & 22
 		\end{tabular}		
 	\end{center}
 	\caption{Categorization of related methods}
