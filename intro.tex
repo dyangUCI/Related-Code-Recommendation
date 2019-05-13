@@ -1,16 +1,35 @@
 \section{Introduction}
 \label{sec:intro}
 
-% code search and code completion
 
 % motivation example
 
-We propose {\tool}, a recommendation engine for related code. Given a code snippet as input query and a large corpus of code containing millions of methods, {\tool} returns a set of recommended code snippets such that:
+Suppose a programmer is in the middle of implmenting a Java class for files manipulation. They get an input of a zip file and need to do further processing on each file, so they write a method as in Listing \ref{lst:mot-query}, which reads the zip file from a given path, and write all files inside to a target directory. For a single functionality, the code looks good for now, but the programmer wants to know what others have implemented together with this functionality, in case they will also need that in the future. They want to have a broader idea of the functionalities needed in these file-manipulation classes in general. If other extra functionalities co-occur a lot with unzipping from other programmers, they may want to add them to their own projects too. One example of this kind of extra functionality is shown in Listings \ref{lst:mot-related}, to zip a list of files from a folder into the target zip file. Unzipping and zipping are two directions of file manipulation. They can work independently, but they are often implemented together, to facilitate possible needs from any direction. We call these two \textit{related code fragments}.
+
+\input{motivating}
+% code search and code completion
+\todo{ellaborate here, add citations}
+Code search is for finding similar codes, not for extra functionality. Code completion, including API recommendation, API usage patterns mining, can only provide API recommendation. 
+
+We aim to recommend code fragments as shown in Listing \ref{lst:mot-query}, \ref{lst:mot-related}, for programmers to learn related functionalities that co-occur a lot with their current one.
+
+We propose {\tool}, a recommendation engine for related code. Given a code snippet as input query and a large corpus of code containing millions of code fragments, {\tool} returns a set of recommended code fragments such that:
 \begin{itemize}
-	\item the recommended code snippets co-occur with the input query in some file(s) inside the code corpus.
-	\item the recommended code snippets are ranked by its frequency of occurrence in these files.
+	\item the recommended code fragments co-occur with similar counterparts of the input query.
+	\item the recommended code fragments are ranked by its frequency of occurrence in these files.
 \end{itemize}
 
-% advantages of CodeAid
 
-The rest of the paper is organized as follows: Section ~\ref{sec:approach}, we describe the algorithm {\tool} uses to generate recommendations. In Section ~\ref{sec:eval}, we manually analyze how relevant {\tool} recommendations are, and what kinds of relevance they provide. We also compare {\tool} results with those from code search engines in this section. Section ~\ref{sec:related} presents the related work. Finally, Section ~\ref{sec:conclude} concludes the paper.
+In this work, we focus on method-level code fragments written in Java. Both the query snippet and the recommended related code fragments are Java methods. {\tool} works by first tokenize the query and all methods in the code corpus. It uses token similarity to detect similar counterparts to the query in the code corpus. We appoint this process to a clone detection tool called SourcererCC. Then {\tool} recognizes other methods which co-occur with these similar counterparts as candidate related methods. 
+
+% advantages of CodeAid
+The advantages of {\tool} are:
+\begin{itemize}
+	\item It provides extra functionalities which the user may also want to implement together with the input query.
+	\item It has a clustering process on top of co-occurrence to provide ranking.
+	\item It is not restricted to any programming language. The Java parser is only used to chunk the file into methods, it can be replaced by the parser from any languages as needed.
+	\item It has flexible granularity level. We can chunk the files into blocks of any size. All similarity comparison processes are token-based, which means as long as we have the token list representing the block, it does not matter what size the block is.
+	\item It is fast enough to be used in real time. The most time-consuming part is similar code detection. However, generating the indexes is a one-time labor and can be done before inputting any query.	
+\end{itemize}
+
+The rest of the paper is organized as follows: Section \ref{sec:approach}, we describe the algorithm {\tool} uses to generate recommendations. In Section \ref{sec:eval}, we manually analyze how relevant {\tool} recommendations are, and what kinds of relevance they provide. We also compare {\tool} results with those from code search engines in this section. Section \ref{sec:related} presents the related work. Finally, Section \ref{sec:conclude} concludes the paper.

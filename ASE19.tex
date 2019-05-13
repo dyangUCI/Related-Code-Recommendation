@@ -101,7 +101,7 @@
 \begin{abstract}
 Finding similar code components for a given query is a popular task to help programmers with easier programming experience. Most code-to-code search tools aim at finding syntactically or semantically similar code given some code of interest. However, not so much attention has been paid to recommending relevant auxiliary or complementary code fragments that often co-occur with the given code. Such relevant code fragments are important because they may work together with the given code together to accomplish a complete or related functionality. 
 
-In this paper, we propose a code recommendation approach that returns relevant code fragments in our search code base for a code query. We use GitHub Java projects as our search code base. Given a code method, we use a code clone tool to detect all its similar counterparts from different GitHub files, then recommend other methods that appear most times among these GitHub files as our relevant code fragments.
+In this paper, we propose a code recommendation approach that returns relevant code fragments in our search code base for a code query. We use GitHub Java projects as our search code base. Given a code method, we use a code clone detection tool to detect all its similar counterparts from different GitHub files, then recommend other methods that appear most times among these GitHub files as our relevant code fragments.
 
 We apply our approach on Stack Overflow (SO) code examples. Prior studies show that SO code examples are often incomplete, our code recommendation approach is helpful when developers browse SO. In this paper, we provide a query code base with 11,110 SO code snippets and return their related code fragments. We manually evaluate the relevance of recommended GitHub code. We also categorize the relationship between the recommended code and the SO query snippet. We compare our approach with other search engines to show that code search techniques may not achieve retrieving relevant results as we proposed.
 
@@ -112,7 +112,6 @@ code recommendation, related code, code search, mining software repositories
 \end{IEEEkeywords}
 
 \input{intro}
-\input{motivating}
 \input{approach}
 \input{dataset}
 \input{eval}
