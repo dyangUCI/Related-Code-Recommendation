@@ -1,2 +1,16 @@
 \section{Introduction}
 \label{sec:intro}
+
+% code search and code completion
+
+% motivation example
+
+We propose {\tool}, a recommendation engine for related code. Given a code snippet as input query and a large corpus of code containing millions of methods, {\tool} returns a set of recommended code snippets such that:
+\begin{itemize}
+	\item the recommended code snippets co-occur with the input query in some file(s) inside the code corpus.
+	\item the recommended code snippets are ranked by its frequency of occurrence in these files.
+\end{itemize}
+
+% advantages of CodeAid
+
+The rest of the paper is organized as follows: Section ~\ref{sec:approach}, we describe the algorithm {\tool} uses to generate recommendations. In Section ~\ref{sec:eval}, we manually analyze how relevant {\tool} recommendations are, and what kinds of relevance they provide. We also compare {\tool} results with those from code search engines in this section. Section ~\ref{sec:related} presents the related work. Finally, Section ~\ref{sec:conclude} concludes the paper.

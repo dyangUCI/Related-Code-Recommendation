@@ -1,5 +1,7 @@
 \section{Evaluation}
-\label{sec:Evaluation}
+\label{sec:eval}
+
+\input{example-table}
 In this section, we describe the design of the assessment scenarios for \tool\ and report the evaluation results. Specifically, our experiments aim to address the following research questions:
 \begin{itemize}
 	\item \textbf{RQ1}: Are the code fragments recommended by \tool\ related to the query?
@@ -41,7 +43,7 @@ We find the following types of relevance in our sample set.
 	
 	
 
-\subsubsection{Complementary method} In this category, the query code can function alone, but the recommended related method provides extra functionality to the query code and will further complete the user class. As shown in the Table ~\ref{tab:compl-examples}, \tool\ recommends {\ttt zip} function when the user implements {\ttt unpackZip}. Similarly, {\ttt decrypt} function for {\ttt encrypt} and {\ttt onPause} function for {\ttt onCreate}. The two methods do not have any direct function call association between them, but they complete each other with extra functionality and are often implemented together in real-life scenarios. 
+\subsubsection{Complementary method} In this category, the query code can function alone, but the recommended related method provides extra functionality to the query code and will further complete the user class. For the example shown as Listing ~\ref{lst:mot-query} and ~\ref{lst:mot-related} in Section~\ref{sec:intro}, The query snippet implements unzip a folder in Java.  \tool\ recommends {\ttt zip} function. These two methods can function independently, but often implemented together to get a stronger ability for file manipulation. Similarly, {\ttt decrypt} function for {\ttt encrypt} and {\ttt onPause} function for {\ttt onCreate}. The two methods do not have any direct function call association between them, but they complete each other with extra functionality and are often implemented together in real-life scenarios. 
 
 \subsubsection{Supplementary method} The recommended related code serves as a helper function to the query, or vice versa. One may make function call to the other. For example the {\ttt merge} function for {\ttt sort}. {\ttt sort} calls {\ttt merge} as a helper function and cannot achieve functionality without it. Also in our second example Table ~\ref{tab:suppl-examples}, our recommended related code {\ttt loadDrawable} calls {\ttt queueJob} inside its method body. There is another related method being recommended together, which is shown below \ref{lst:part2}. This code is also called by {\ttt loadDrawable}, the related methods give the user a broader picture of the whole class,point to a higher level of functionality the user may want to implement, and also direct the user to the most-frequently used higher level functionality and its auxiliaries.
 \begin{lstlisting}[caption={Recommended code \#2}, label={lst:part2}]
@@ -76,6 +78,6 @@ public static String encrypt(final String password, String message) throws Gener
 }
 \end{lstlisting}
 
-\input{example-table}
+
 
 \input{comparison}
