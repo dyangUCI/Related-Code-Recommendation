@@ -64,7 +64,8 @@ public static String encrypt(final String password, String message) throws Gener
 		log("message", message);
 		byte[] cipherText = encrypt(key, ivBytes, message.getBytes(CHARSET));
 		//NO_WRAP is important as was getting \n at the end
-		String encoded = String.valueOf(Base64.encodeToString(cipherText, Base64.NO_PADDING ));
+		String encoded = String.valueOf(
+			Base64.encodeToString(cipherText, Base64.NO_PADDING ));
 		log("Base64.NO_WRAP", encoded);
 		return encoded;
 	} catch (UnsupportedEncodingException e) {
@@ -78,24 +79,20 @@ public static String encrypt(final String password, String message) throws Gener
 \input{example-table}
 
 \subsection{Comparison with code search engines}
-In this experiment we compare the recommendation results of \tool\ with those from code search engines. We focus on Google search and Stack Overflow search since these are popular destinations when people look for programming assistance. We also compare to \texttt{FaCoy}, a code-to-code-search engine which proved to have state-of-art precision. We use the 6 examples in the above session as our queries. For \texttt{FaCoy}, we use the snippets directly as search queries since it supports code-to-code search. For Google and SO search engine, we use the original quesion title for the SO snippet as the search query. We show that whether the search engines can also retrieve similar related code fragments as \tool in their top 10 search results. 
+In this experiment we compare the recommendation results of \tool\ with those from code search engines. We focus on Google search and Stack Overflow search since these are popular destinations when people look for programming assistance. We also compare to \texttt{FaCoy}, a code-to-code-search engine which proved to have state-of-art precision. In the experiments above, we get 24 valid related code fragments as top 1 result recommended by \tool. We randomly select 6 snippets from them. For \texttt{FaCoy}, we use the snippets directly as search queries since it supports code-to-code search. For Google and SO search engine, we trace back to the SO post where the SO snippet originated, and summarize the context around the snippet as the search query. We show that whether the search engines can also retrieve top 1 related code fragments as \tool in their top 10 search results. 
 
 Table \ref{tab:so-questions} lists the titles of SO posts used as search queries in our experiment.
 
 \begin{table}
 	\begin{center}
 		\begin{tabular}{ c|c } 
-			Query & Question title \\ 
-			Q1 &  1\\\hline 
+			Query & Question title \\\hline 
+			Q1 &  java unzip files from a specific folder\\\hline 
 			Q2 &  2 \\ \hline
 			Q3 &  3 \\ \hline
 			Q4 &  4 \\ \hline
 			Q5 &  5 \\ \hline
 			Q6 &  6 \\ \hline
-			Q7 &  7	\\ \hline
-			Q8 &  8	\\ \hline
-			Q9 &  9	\\ \hline
-			Q10 & 10\\ \hline
 		\end{tabular}		
 	\end{center}
 	\caption{Queries for Google search and SO search}
@@ -109,20 +106,16 @@ One example search query for \textit{FaCoy} is shown in List ~\ref{lst:facoy-que
 
 \begin{table}
 	\begin{center}
-		\begin{tabular}{ c|c } 
-			Query & Question title \\ 
-			Q1 &  1\\\hline 
-			Q2 &  2 \\ \hline
-			Q3 &  3 \\ \hline
-			Q4 &  4 \\ \hline
-			Q5 &  5 \\ \hline
-			Q6 &  6 \\ \hline
-			Q7 &  7	\\ \hline
-			Q8 &  8	\\ \hline
-			Q9 &  9	\\ \hline
-			Q10 & 10\\ \hline
+		\begin{tabular}{ c|c|c|c } 
+			Query & Google search & SO search & FaCoy \\ 
+			Q1 &  1  & &\\\hline 
+			Q2 &  2 & &\\ \hline
+			Q3 &  3 & &\\ \hline
+			Q4 &  4 & &\\ \hline
+			Q5 &  5 & & \\ \hline
+			Q6 &  6 & &\\ \hline
 		\end{tabular}		
 	\end{center}
-	\caption{Queries for Google and SO}
+	\caption{Search results}
 	\label{tab:so-questions}
 \end{table}
