@@ -8,6 +8,7 @@ Suppose a programmer is in the middle of impelmenting a Java class for files man
 
 \input{motivating}
 % code search and code completion
+
 Code-to-code search engines could potentially be used to get code recommendations. For example, code-to-code search tools ~\cite{kim2018Facoy, krugle, searchcode} could take a code snippet as query and retrieve similar code snippets from a code corpus. However, such code-to-code search tools target at finding similar codes, not extra functionality. 
 
 Pattern-based code completion tools~\cite{nguyen2009groum, nguyen2012grapacc} also recommend completing code to the query code. They mine common API usage patterns from a large code corpus. For a given partial snippet as query, if it matches a prefix of a mined pattern, the tool recommends the rest of the pattern for completion. Such tools only work for the mined patterns; that is, they cannot recommend any code outside the mined patterns.
