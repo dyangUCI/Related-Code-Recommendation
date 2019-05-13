@@ -1,41 +1,85 @@
 \subsection{Comparison with code search engines}
-In this experiment we compare the recommendation results of \tool\ with those from code search engines. We focus on Google search and Stack Overflow search since these are popular destinations when people look for programming assistance. We also compare to \texttt{FaCoy}, a code-to-code-search engine which proved to have state-of-art precision. In the experiments above, we get 24 valid related code fragments as top 1 result recommended by \tool. We randomly select 6 snippets from them. For \texttt{FaCoy}, we use the snippets directly as search queries since it supports code-to-code search. For Google and SO search engine, we trace back to the SO post where the SO snippet originated, and summarize the context around the snippet as the search query. We show that whether the search engines can also retrieve top 1 related code fragments as \tool in their top 10 search results. 
+In this experiment we compare the recommendation results of \tool\ with those from code search engines. We choose Google search engine since its the most popular destination when people look for programming assistance. We also compare to \texttt{FaCoY}~\cite{kim2018Facoy}, a code-to-code search engine which proved to have state-of-art precision. It uses SO snippets as its query base and indexes GitHub files as search space. \texttt{searchcode}~\cite{searchcode} and \texttt{Krugle}~\cite{krugle} are another two online code-to-code search engines. We only compare with \texttt{FaCoY} because it beats \texttt{searchcode} and \texttt{Krugle} in the total number of outputs and precision of outputs when using SO snippets as queries~\cite{kim2018Facoy}. 
+We look for whether the search engines can also retrieve top 1 related code fragments recommended by \tool\ in their top 10 search results. 
 
-Table \ref{tab:so-questions} lists the titles of SO posts used as search queries in our experiment.
+For one out of the ten queries, \texttt{FaCoY} can return the related code recommended by \tool\ in its top 10 search results. This results from the related code being very similar to the query, as shown in Table ~\ref{tab:facoy-example}. For the rest of nine queries, the related code is not similar to the query, so it cannot be retrieved by \texttt{FaCoY}.
 
-\begin{table}
-	\begin{center}
-		\begin{tabular}{ c|c } 
-			Query & Question title \\\hline 
-			Q1 &  java unzip files from a specific folder\\\hline 
-			Q2 &  2 \\ \hline
-			Q3 &  3 \\ \hline
-			Q4 &  4 \\ \hline
-			Q5 &  5 \\ \hline
-			Q6 &  6 \\ \hline
-		\end{tabular}		
-	\end{center}
-	\caption{Queries for Google search and SO search}
-	\label{tab:so-questions}
-\end{table}
+As for Google search engine, for five out of the ten queries, Google can locate the GitHub file(s) which contain similar methods to the query, therefore we can find the related code recommended by \tool\ inside these GitHub files. However, Google can only retrieve the full files, while \tool\ can point to the method which is mostly used among these files. 
 
-One example search query for \textit{FaCoy} is shown in List ~\ref{lst:facoy-query}.
-\begin{lstlisting}[label={lst:facoy-query}]
-	sample
+By performing the comparison above, we can see that code search engines may not fulfill the purpose of recommending related code as \tool\.
+
+
+\lstset{
+	frame=none,
+	aboveskip=0pt,
+	belowskip=0pt,
+	basicstyle=\tiny\ttfamily,
+}
+\begin{table*}\scriptsize
+	\caption{Related code which can be retrieved by FaCoY}
+	\label{tab:facoy-example}
+	
+	\setlength{\tabcolsep}{0.01\textwidth}
+	\begin{tabular}{@{}p{0.49\textwidth}p{0.49\textwidth}@{}}
+		\toprule
+		Query Code Snippet & Recommended Related Code \\
+		\midrule
+
+
+\begin{lstlisting}
+public int readFramesChanel(short[] sampleBuffer, int offset, int numFramesToRead,int channel) throws IOException, WavFileException
+{
+	if (ioState != IOState.READING) throw new IOException("Cannot read from WavFile instance");
+
+	for (int f=0 ; f<numFramesToRead ; f++)
+	{
+		if (frameCounter == numFrames) return f;
+
+		for (int c=0 ; c<numChannels ; c++)
+		{
+			if(channel==c)
+			{
+				sampleBuffer[offset] = (short) readSample();
+				offset ++;
+			}
+			else
+				readSample();
+		}
+
+		frameCounter ++;
+	}
+
+	return numFramesToRead;
+}
 \end{lstlisting}
+		
+		&
+\begin{lstlisting}
+public int writeFrames(int[] sampleBuffer, final int offSetIn, int numFramesToWrite) throws IOException
+{
+	if (this.ioState != IOState.WRITING) throw new IOException("Cannot write to WavFile instance"); //$NON-NLS-1$
+	int offSet = offSetIn;
+	for (int f = 0; f < numFramesToWrite; f++)
+	{
+		if (this.frameCounter == this.numFrames) return f;
 
-\begin{table}
-	\begin{center}
-		\begin{tabular}{ c|c|c|c } 
-			Query & Google search & SO search & FaCoy \\ 
-			Q1 &  1  & &\\\hline 
-			Q2 &  2 & &\\ \hline
-			Q3 &  3 & &\\ \hline
-			Q4 &  4 & &\\ \hline
-			Q5 &  5 & & \\ \hline
-			Q6 &  6 & &\\ \hline
-		\end{tabular}		
-	\end{center}
-	\caption{Search results}
-	\label{tab:so-questions}
-\end{table}
+		for (int c = 0; c < this.numChannels; c++)
+		{
+			writeSample(sampleBuffer[offSet]);
+			offSet++;
+		}
+
+		this.frameCounter++;
+	}
+
+	return numFramesToWrite;
+}
+		
+\end{lstlisting}
+\\
+
+\bottomrule
+	\end{tabular}
+\end{table*}
+		
+
