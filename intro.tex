@@ -4,14 +4,17 @@
 
 % motivation example
 
-Suppose a programmer is in the middle of implmenting a Java class for files manipulation. They get an input of a zip file and need to do further processing on each file, so they write a method as in Listing \ref{lst:mot-query}, which reads the zip file from a given path, and write all files inside to a target directory. For a single functionality, the code looks good for now, but the programmer wants to know what others have implemented together with this functionality, in case they will also need that in the future. They want to have a broader idea of the functionalities needed in these file-manipulation classes in general. If other extra functionalities co-occur a lot with unzipping from other programmers, they may want to add them to their own projects too. One example of this kind of extra functionality is shown in Listings \ref{lst:mot-related}, to zip a list of files from a folder into the target zip file. Unzipping and zipping are two directions of file manipulation. They can work independently, but they are often implemented together, to facilitate possible needs from any direction. We call these two \textit{related code fragments}.
+Suppose a programmer is in the middle of impelmenting a Java class for files manipulation. They get an input of a zip file and need to do further processing on each file, so they write a method as in Listing \ref{lst:mot-query}, which reads the zip file from a given path, and write all files inside to a target directory. For a single functionality, the code looks good for now, but the programmer wants to know what others have implemented together with this functionality, in case they will also need that in the future. They want to have a broader idea of the functionalities needed in these file-manipulation classes in general. If other extra functionalities co-occur a lot with unzipping from other programmers, they may want to add them to their own projects too. One example of this kind of extra functionality is shown in Listings \ref{lst:mot-related}, to zip a list of files from a folder into the target zip file. Unzipping and zipping are two directions of file manipulation. They can work independently, but they are often implemented together, to facilitate possible needs from any direction. We call the zip method a \textit{related code fragment} to the unzip method.
 
 \input{motivating}
 % code search and code completion
-\todo{ellaborate here, add citations}
-Code search is for finding similar codes, not for extra functionality. Code completion, including API recommendation, API usage patterns mining, can only provide API recommendation. 
+Code-to-code search engines could potentially be used to get code recommendations. For example, code-to-code search tools ~\cite{kim2018Facoy, krugle, searchcode} could take a code snippet as query and retrieve similar code snippets from a code corpus. However, such code-to-code search tools target at finding similar codes, not extra functionality. 
 
-We aim to recommend code fragments as shown in Listing \ref{lst:mot-query}, \ref{lst:mot-related}, for programmers to learn related functionalities that co-occur a lot with their current one.
+Pattern-based code completion tools~\cite{nguyen2009groum, nguyen2012grapacc} also recommend completing code to the query code. They mine common API usage patterns from a large code corpus. For a given partial snippet as query, if it matches a prefix of a mined pattern, the tool recommends the rest of the pattern for completion. Such tools only work for the mined patterns; that is, they cannot recommend any code outside the mined patterns.
+
+For both code seasrch engines and pattern-based code completion tools, the relevant code nippets they retrieve may have extra lines of code with more functionality, but they do not remove similar lines to the query and do not have the concept of commonly used extra code.
+
+We aim to recommend code fragments as shown in Listing \ref{lst:mot-query}, \ref{lst:mot-related}, for programmers to learn related functionalities that commonly co-occur with their current one.
 
 We propose {\tool}, a recommendation engine for related code. Given a code snippet as input query and a large corpus of code containing millions of code fragments, {\tool} returns a set of recommended code fragments such that:
 \begin{itemize}
@@ -20,7 +23,7 @@ We propose {\tool}, a recommendation engine for related code. Given a code snipp
 \end{itemize}
 
 
-In this work, we focus on method-level code fragments written in Java. Both the query snippet and the recommended related code fragments are Java methods. {\tool} works by first tokenize the query and all methods in the code corpus. It uses token similarity to detect similar counterparts to the query in the code corpus. We appoint this process to a clone detection tool called SourcererCC. Then {\tool} recognizes other methods which co-occur with these similar counterparts as candidate related methods. 
+In this work, we focus on method-level code fragments written in Java. Both the query snippet and the recommended related code fragments are Java methods. {\tool} works by first tokenize the query and all methods in the code corpus. It uses token similarity to detect similar counterparts to the query in the code corpus. We appoint this process to a clone detection tool called SourcererCC~\cite{sajnani2016sourcerercc}. Then {\tool} recognizes other methods which co-occur with these similar counterparts as candidate related methods. 
 
 % advantages of CodeAid
 The advantages of {\tool} are:
