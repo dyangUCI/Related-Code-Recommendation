@@ -56,7 +56,8 @@ Given those similar code fragments identified in the previous step, we trace bac
 
 \subsection{Clustering and Ranking}
 \subsubsection{Clustering candidate related code fragments}
-We further cluster those candidate related methods identified in the previous step based on their token similarity, in order to detect common co-occurring code fragments. Given each candidate related method, we retrieve its token list again and computes its similarity to other candidates which are from different GitHub files. Each candidate will serve as the center of a cluster, we browse among other candidates from other files and add similar candidates to the current cluster.
+We further get the token lists for those candidate related methods identified in the previous step and remove duplicate candidates. in order to detect common co-occurring code fragments, we cluster the remaining unique candidate related methods
+based on their token similarity.  Given each candidate related method, we retrieve its token list again and computes its similarity to other candidates which are from different GitHub files. Each candidate will serve as the center of a cluster, we browse among other candidates from other files and add similar candidates to the current cluster.
 
 \begin{figure}[h]
 	\label{alg: Clustering candidate related methods}
