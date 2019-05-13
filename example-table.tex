@@ -6,8 +6,8 @@
     basicstyle=\tiny\ttfamily,
 }
 \begin{table*}\scriptsize
-\caption{related code recommendation examples}
-\label{tab:intro-examples}
+\caption{Complementary code examples}
+\label{tab:compl-examples}
 
 \setlength{\tabcolsep}{0.01\textwidth}
 \begin{tabular}{@{}p{0.49\textwidth}p{0.49\textwidth}@{}}
@@ -57,15 +57,7 @@ public static boolean unpackZip(String path, String zipname, String targetDirect
 	return true;
 }
 \end{lstlisting}
-%\vspace*{1em}
-%\explanation{
-%    \emph{Example A: Configuring Objects.}
-%    \begin{itemize}[leftmargin=*]
-%        \item This code snippet~\cite{SO:underline} adds underline to a piece of text.
-%        \item The recommended code suggests adding a callback handler to pop up a dialog once the underlined text is touched upon.
-%        \item \textbf{Intersected from a cluster of 2 methods}~\cite{GH:intro5, GH:intro6}.
-%    \end{itemize}
-%}
+
 
 &
 \begin{lstlisting}
@@ -97,9 +89,121 @@ public static void zip(String baseFolder, List<File> files, String zipFile) {
 
 }
 \end{lstlisting}
+\vspace*{1em}
+\explanation{
+    \emph{Example A: Complementary method}
+    \begin{itemize}
+        \item The query snippet implements unzip a folder in Java.
+        \item The recommended related method implements zip a folder. These two methods can function independently, but often implemented together to get a stronger ability for folder manipulation.
+    \end{itemize}
+}
+
 \\
 
 \bottomrule
+
+\begin{lstlisting}
+public static byte[] encrypt(final SecretKeySpec key, final byte[] iv, final byte[] message)
+throws GeneralSecurityException {
+	final Cipher cipher = Cipher.getInstance(AES_MODE);
+	IvParameterSpec ivSpec = new IvParameterSpec(iv);
+	cipher.init(Cipher.ENCRYPT_MODE, key, ivSpec);
+	byte[] cipherText = cipher.doFinal(message);
+
+	log(""cipherText"", cipherText);
+
+	return cipherText;
+}
+\end{lstlisting}
+
+
+&
+\begin{lstlisting}
+public static byte[] decrypt(final SecretKeySpec key, final byte[] iv, final byte[] decodedCipherText)
+throws GeneralSecurityException {
+	final Cipher cipher = Cipher.getInstance(AES_MODE);
+	IvParameterSpec ivSpec = new IvParameterSpec(iv);
+	cipher.init(Cipher.DECRYPT_MODE, key, ivSpec);
+	byte[] decryptedBytes = cipher.doFinal(decodedCipherText);
+
+	log(""decryptedBytes"", decryptedBytes);
+
+	return decryptedBytes;
+}
+\end{lstlisting}
+
+\vspace*{1em}
+\explanation{
+	\emph{Example B: Complementary method}
+	\begin{itemize}
+		\item The query snippet implements \texttt{encrypt} functionality for an byte array.
+		\item The recommended related method decrypts a decoded byte array. 
+	\end{itemize}
+}
+
+\\
+
+\bottomrule
+
+\begin{lstlisting}
+@Override
+public void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.main);
+	preferred = (TextView)findViewById(R.id.preferred);
+	orientation = (TextView)findViewById(R.id.orientation);
+	mgr = (SensorManager) this.getSystemService(SENSOR_SERVICE);
+	accel = mgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+	compass = mgr.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+	orient = mgr.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+	WindowManager window = (WindowManager)
+	this.getSystemService(WINDOW_SERVICE);
+	int apiLevel = Integer.parseInt(Build.VERSION.SDK);
+	if(apiLevel <8) {
+		mRotation = window.getDefaultDisplay().getOrientation();
+	}
+	else {
+		mRotation = window.getDefaultDisplay().getRotation();
+	}
+	}
+\end{lstlisting}
+
+&
+\begin{lstlisting}
+@Override
+protected void onPause() {
+	mgr.unregisterListener(this, accel);
+	mgr.unregisterListener(this, compass);
+	mgr.unregisterListener(this, orient);
+	super.onPause();
+}
+\end{lstlisting}
+
+\vspace*{1em}
+\explanation{
+	\emph{Example C: Complementary method}
+	\begin{itemize}
+		\item The query snippet implements \texttt{onCreate} functionality for an \texttt{Android} activity.
+		\item The recommended related method implements \texttt{onPause} which does not have direct function call with the query snippet, but adds extra functionality to the activity. 
+	\end{itemize}
+}
+
+\\
+
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}\scriptsize
+	\caption{Supplementary code examples}
+	\label{tab:suppl-examples}
+	
+	\setlength{\tabcolsep}{0.01\textwidth}
+	\begin{tabular}{@{}p{0.49\textwidth}p{0.49\textwidth}@{}}
+		\toprule
+		Query Code Snippet & Recommended Related Code \\
+		\midrule
+		
 
 \begin{lstlisting}
 private void queueJob(final String url, final ImageView imageView,final Drawable placeholder) {
@@ -157,48 +261,109 @@ public void loadDrawable(final String url, final ImageView imageView) {
 }
 \end{lstlisting}
 
-
+\vspace*{1em}
+\explanation{
+	\emph{Example D: Supplementary method}
+	\begin{itemize}
+		\item The recommended related method calls the query snippet within its method body. It is a higher-level funtionality to the query.
+	\end{itemize}
+}
 
 \\
 
 
 \bottomrule
 
-\begin{lstlisting}
 
+\begin{lstlisting}
+@Override
+protected void onLayout(boolean changed, int l, int t, int r, int b) {
+	final int count = getChildCount();
+	for (int i = 0; i < count; i++) {
+		View child = getChildAt(i);
+		LayoutParams lp = (LayoutParams) child.getLayoutParams();
+		child.layout(lp.x+5, lp.y+5, lp.x + child.getMeasuredWidth(), lp.y + child.getMeasuredHeight());
+	}
+}
 \end{lstlisting}
 
 &
 \begin{lstlisting}
-
+@Override
+protected LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
+	return new LayoutParams(p);
+}
 \end{lstlisting}
+
+\vspace*{1em}
+\explanation{
+	\emph{Example E: Supplementary method}
+	\begin{itemize}
+		\item The recommended related code generates the \\texttt{Layout parameters}, it will be traced by \\texttt{getLayoutParam} function, which will further be called inside the query method \\texttt{onLayout}. There's a dependency chain between the query and the related code.
+	\end{itemize}
+}
 
 \\
 
 \bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}\scriptsize
+	\caption{Supplementary code examples}
+	\label{tab:diff-examples}
+	
+	\setlength{\tabcolsep}{0.01\textwidth}
+	\begin{tabular}{@{}p{0.49\textwidth}p{0.49\textwidth}@{}}
+		\toprule
+		Query Code Snippet & Recommended Related Code \\
+		\midrule
+		
 
 \begin{lstlisting}
-
+public static <K, V extends Comparable<? super V>> SortedSet<Map.Entry<K, V>> 		entriesSortedByValues(Map<K, V> map) {
+	SortedSet<Map.Entry<K, V>> sortedEntries = new TreeSet<Map.Entry<K, V>>(
+		new Comparator<Map.Entry<K, V>>() {
+		@Override
+			public int compare(Map.Entry<K, V> e1, Map.Entry<K, V> e2) {
+				return e1.getValue().compareTo(e2.getValue());
+			}
+		});
+	sortedEntries.addAll(map.entrySet());
+	return sortedEntries;
+}
 \end{lstlisting}
 
 &
 \begin{lstlisting}
+public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue( Map<K, V> map ) {
+	List<Map.Entry<K, V>> list =
+		new LinkedList<Map.Entry<K, V>>( map.entrySet() );
+	Collections.sort( list, new Comparator<Map.Entry<K, V>>()
+	{
+		public int compare( Map.Entry<K, V> o1, Map.Entry<K, V> o2 )
+		{
+			return (o1.getValue()).compareTo( o2.getValue() );
+		}
+	} );
 
+	Map<K, V> result = new LinkedHashMap<K, V>();
+	for (Map.Entry<K, V> entry : list)
+	{
+		result.put( entry.getKey(), entry.getValue() );
+	}
+	return result;
+}
 \end{lstlisting}
-% https://github.com/front-line-tech/background-service-lib/blob/master/SampleService/servicelib/src/main/java/com/flt/servicelib/AbstractPermissionExtensionAppCompatActivity.java#L53
-% https://github.com/brarcher/video-transcoder/blob/master/app/src/main/java/protect/videotranscoder/activity/MainActivity.java#L1597
-\\
+\vspace*{1em}
+\explanation{
+	\emph{Example F: Different implementation}
+	\begin{itemize}
+		\item The question title of the SO post is: Sort the values in HashMap.
+		\item The query snippet from SO uses \texttt{SortedSet} to store the map entries, while the recommended code provide an alternative, using \texttt{LinkedList}, and show how to use iterate the map.
+	\end{itemize}
+}
 
-\bottomrule
-
-\begin{lstlisting}
-
-\end{lstlisting}
-
-&
-\begin{lstlisting}
-
-\end{lstlisting}
 
 \\
 

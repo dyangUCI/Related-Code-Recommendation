@@ -16,15 +16,32 @@ Precision@k = \frac{1}{N}\sum_{i=1}^{N}\tfrac{\left | relevant_{i,k} \right |}{k
 \end{equation}
 where $\left | relevant_{i,k} \right |$ represents the number of positive related results in the top $k$ results for query $i$, $N$ is the number queries we evaluate, which is $30$. $k$ is the number of top results we examine, here we use $k=1$ and $k=3$.
 
-\tool\ achieves 73\% and B\% for $Precision@1$ and $Precision@3$ respectively.
+\tool\ achieves 80\% and 78.9\% for $Precision@1$ and $Precision@3$ respectively. That is to say, for the 30 top 1 recommended results, 24 of them are manual examined as related, for the 90 top 3 recommended resutls, 71 of them are related.
+
 We find the following types of relevance in our sample set.
 \begin{itemize}
 	\item A complementary method which adds more functionality
 	\item A supplmentary method that help with or get help from the query 
-	\item A more generalized or complete implementation for the query	
+	\item A more generalized or detailed or extended implementation for the query	
 \end{itemize}
 
-\subsubsection{Complementary method} In this category, the query code can function alone, but the recommended related method provides extra functionality to the query code and will further complete the user class. As shown in the Table ~\ref{tab:intro-examples}, \tool\ recommends \texttt{Zip} function when the user implements \texttt{Unzip}. Similarly, \texttt{Decrypt} function for \texttt{Encrypt}. The two methods do not have any direct function call association between them, but they complete each other and are often implemented together in real-life scenarios. 
+\begin{table}
+	\begin{center}
+		\begin{tabular}{ c|c|c } 
+			Category & Top 1 & Top 3 \\\hline
+			Complementary method &  12 & 33\\\hline 
+			Supplementary method &  11 & 31 \\ \hline
+			Different implementation &  1 & 4 \\ \hline
+			Not related &6 & 19
+		\end{tabular}		
+	\end{center}
+	\caption{Categorization of related methods}
+	\label{tab:categorization}
+\end{table}
+	
+	
+
+\subsubsection{Complementary method} In this category, the query code can function alone, but the recommended related method provides extra functionality to the query code and will further complete the user class. As shown in the Table ~\ref{tab:compl-examples}, \tool\ recommends \texttt{Zip} function when the user implements \texttt{Unzip}. Similarly, \texttt{Decrypt} function for \texttt{Encrypt} and \texttt{onPause} function for \texttt{onCreate}. The two methods do not have any direct function call association between them, but they complete each other with extra functionality and are often implemented together in real-life scenarios. 
 
 \subsubsection{Supplementary method} The recommended related code serves as a helper function to the query, or vice versa. One may make function call to the other. For example the \texttt{Merge} function for \texttt{Sort}. \texttt{Sort} calls \texttt{Merge} as a helper function and cannot achieve functionality without it. Also in our second example Table ~\ref{tab:intro-examples}, our recommended related code \texttt{loadDrawable} calls \texttt{queueJob} inside its method body. There is another related method being recommended together, which is shown below \ref{lst:part2}. This code is also called by \texttt{loadDrawable}, the related methods give the user a broader picture of the whole class,point to a higher level of functionality the user may want to implement, and also direct the user to the most-frequently used higher level functionality and its auxiliaries.
 \begin{lstlisting}[caption={Recommended code \#2}, label={lst:part2}]
@@ -36,6 +53,8 @@ public static Drawable getDrawableFromCache(String url) {
 	return null;
 }	
 \end{lstlisting}
+
+\subsection{Different implementation} 
 
 \input{example-table}
 
