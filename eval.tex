@@ -22,7 +22,7 @@ We find the following types of relevance in our sample set.
 \begin{itemize}
 	\item A complementary method which adds more functionality
 	\item A supplmentary method that help with or get help from the query 
-	\item A more generalized or detailed or extended implementation for the query	
+	\item A different implementation for the query	
 \end{itemize}
 
 \begin{table}
@@ -43,7 +43,7 @@ We find the following types of relevance in our sample set.
 
 \subsubsection{Complementary method} In this category, the query code can function alone, but the recommended related method provides extra functionality to the query code and will further complete the user class. As shown in the Table ~\ref{tab:compl-examples}, \tool\ recommends \texttt{Zip} function when the user implements \texttt{Unzip}. Similarly, \texttt{Decrypt} function for \texttt{Encrypt} and \texttt{onPause} function for \texttt{onCreate}. The two methods do not have any direct function call association between them, but they complete each other with extra functionality and are often implemented together in real-life scenarios. 
 
-\subsubsection{Supplementary method} The recommended related code serves as a helper function to the query, or vice versa. One may make function call to the other. For example the \texttt{Merge} function for \texttt{Sort}. \texttt{Sort} calls \texttt{Merge} as a helper function and cannot achieve functionality without it. Also in our second example Table ~\ref{tab:intro-examples}, our recommended related code \texttt{loadDrawable} calls \texttt{queueJob} inside its method body. There is another related method being recommended together, which is shown below \ref{lst:part2}. This code is also called by \texttt{loadDrawable}, the related methods give the user a broader picture of the whole class,point to a higher level of functionality the user may want to implement, and also direct the user to the most-frequently used higher level functionality and its auxiliaries.
+\subsubsection{Supplementary method} The recommended related code serves as a helper function to the query, or vice versa. One may make function call to the other. For example the \texttt{Merge} function for \texttt{Sort}. \texttt{Sort} calls \texttt{Merge} as a helper function and cannot achieve functionality without it. Also in our second example Table ~\ref{tab:suppl-examples}, our recommended related code \texttt{loadDrawable} calls \texttt{queueJob} inside its method body. There is another related method being recommended together, which is shown below \ref{lst:part2}. This code is also called by \texttt{loadDrawable}, the related methods give the user a broader picture of the whole class,point to a higher level of functionality the user may want to implement, and also direct the user to the most-frequently used higher level functionality and its auxiliaries.
 \begin{lstlisting}[caption={Recommended code \#2}, label={lst:part2}]
 public static Drawable getDrawableFromCache(String url) {
 	if (DrawableManager.cache.containsKey(url)) {
@@ -54,14 +54,58 @@ public static Drawable getDrawableFromCache(String url) {
 }	
 \end{lstlisting}
 
-\subsection{Different implementation} 
+\subsection{Different implementation} This category represents those recommended related methods which have similar functionality to the query code. The recommended result provide an alternative, or a more detailed or extended implementation for the functionality. As shown in Table ~\ref{tab:diff-examples}, both of the methods implement sorting values in a \texttt{Map}, the query store the map entries in a \texttt{SortedSet}, while the recommended code uses \texttt{LinkedList}, and shows how to iterate a \texttt{Map}. For the \texttt{encryt} in Table ~\ref{tab:compl-examples}, \tool\ also recommended an alternative implementation with \texttt{String} inputs, as shown in Listing ~\ref{lst:encryt}.
+
+
+\begin{lstlisting}[caption={different implementation for \texttt{encrypt}}, label={lst:encryt}]
+public static String encrypt(final String password, String message) throws GeneralSecurityException {
+	try {
+		final SecretKeySpec key = generateKey(password);
+		log("message", message);
+		byte[] cipherText = encrypt(key, ivBytes, message.getBytes(CHARSET));
+		//NO_WRAP is important as was getting \n at the end
+		String encoded = String.valueOf(Base64.encodeToString(cipherText, Base64.NO_PADDING ));
+		log("Base64.NO_WRAP", encoded);
+		return encoded;
+	} catch (UnsupportedEncodingException e) {
+		if (DEBUG_LOG_ENABLED)
+			Log.e(TAG, "UnsupportedEncodingException ", e);
+		throw new GeneralSecurityException(e);
+	}
+}
+\end{lstlisting}
 
 \input{example-table}
 
 \subsection{Comparison with code search engines}
-In this experiment we compare the recommendation results of \tool\ with those from code search engines. We focus on Google search and Stack Overflow search since these are popular destinations when people look for programming assistance. We also compare to \texttt{FaCoy}, a code-to-code-search engine which proved to have state-of-art precision. In the experiments above, we get 22 valid related code fragments as top 1 result recommended by \tool. We randomly select 10 snippets from them. For \texttt{FaCoy}, we use the snippets directly as search queries since it supports code-to-code search. For Google and SO search engine, we use the original quesion title for the SO snippet as the search query. We show that whether the search engines can also retrieve similar related code fragments as \tool. 
+In this experiment we compare the recommendation results of \tool\ with those from code search engines. We focus on Google search and Stack Overflow search since these are popular destinations when people look for programming assistance. We also compare to \texttt{FaCoy}, a code-to-code-search engine which proved to have state-of-art precision. We use the 6 examples in the above session as our queries. For \texttt{FaCoy}, we use the snippets directly as search queries since it supports code-to-code search. For Google and SO search engine, we use the original quesion title for the SO snippet as the search query. We show that whether the search engines can also retrieve similar related code fragments as \tool in their top 10 search results. 
 
 Table \ref{tab:so-questions} lists the titles of SO posts used as search queries in our experiment.
+
+\begin{table}
+	\begin{center}
+		\begin{tabular}{ c|c } 
+			Query & Question title \\ 
+			Q1 &  1\\\hline 
+			Q2 &  2 \\ \hline
+			Q3 &  3 \\ \hline
+			Q4 &  4 \\ \hline
+			Q5 &  5 \\ \hline
+			Q6 &  6 \\ \hline
+			Q7 &  7	\\ \hline
+			Q8 &  8	\\ \hline
+			Q9 &  9	\\ \hline
+			Q10 & 10\\ \hline
+		\end{tabular}		
+	\end{center}
+	\caption{Queries for Google search and SO search}
+	\label{tab:so-questions}
+\end{table}
+
+One example search query for \textit{FaCoy} is shown in List ~\ref{lst:facoy-query}.
+\begin{lstlisting}[label={lst:facoy-query}]
+	sample
+\end{lstlisting}
 
 \begin{table}
 	\begin{center}
@@ -82,8 +126,3 @@ Table \ref{tab:so-questions} lists the titles of SO posts used as search queries
 	\caption{Queries for Google and SO}
 	\label{tab:so-questions}
 \end{table}
-
-One example search query for \textit{FaCoy} is shown in List ~\ref{lst:snippet-query}.
-\begin{lstlisting}[label={lst:snippet-query}]
-	sample
-\end{lstlisting}
