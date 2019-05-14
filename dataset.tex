@@ -23,4 +23,4 @@ Since SO snippets are often free-standing statements with low parsable rates, we
 Prior work finds that larger SO snippets have more meaningful clones in GitHub~\cite{yang2017stack}. Hence, we choose to study SO snippets with no less than 50 tokens after tokenization. We also remove duplicated examples within SO. As a result, we collect 186,392 distinct SO snippets.
 
 \subsection{Result for similar code detection}
-We run SoucererCC to find all similar pairs between SO and GitHub. We run SCC on a server machine with 116 cores and 256G RAM. It takes 24 hours to complete. As a result, we get 21,207 distinct SO methods that have one or more similar code fragments in GitHub. We take these 21,207 SO snippets as our query code base. \todo{distribution of \# of similar counterparts}.
+We run SoucererCC to find all similar pairs between SO and GitHub. We run SCC on a server machine with 116 cores and 256G RAM. It takes 24 hours to complete. As a result, we get 21,207 distinct SO methods that have one or more similar code fragments in GitHub. We take these 21,207 SO snippets as our query code base.
