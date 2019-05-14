@@ -13,12 +13,9 @@ In this section, we describe the design of the assessment scenarios for \tool\ a
 
 \subsection{Quantitative Analysis}
 
-Within the 21,207 groups of SO snippet with GitHub files which contain similar methods to the SO snippet, we extract all co-occurred methods from these GitHub files and treat them as candidate related code fragments. Then for each candidate in each GitHub file, we retrieve its similar counterparts from other files. As a result, we get the co-occurred methods as our candidate related code fragments and for each candidate we also have the frequency of its similar counterparts. Not all groups have candidate methods and not all candidates have similar counterparts in other files, we have 11,110 SO snippets whose candidate related methods do have similar counterparts in other files, that can be taken as the candidate appears more than one files and we take this as a stronger signal for recommendation and only focus on these 11,110 groups from then on. Inside each group, we order the candidates by the number of similar counterparts and returned the ordered list as the final recommendation of related code fragments to the user.
+For the 21,207 SO queries with their similar counterparts in GitHub, we collect the original GitHub files which contain these similar counterparts Then we extract all co-occurred methods from these GitHub files and treat them as candidate related code fragments. For each candidate in each GitHub file, we cluster its similar counterparts from other files. We keep
+ Not all groups have candidate methods and not all candidates have similar counterparts in other files, we have 11,110 SO snippets whose candidate related methods do have similar counterparts in other files, that can be taken as the candidate appears more than one files and we take this as a stronger signal for recommendation and only focus on these 11,110 groups from then on. Inside each group, we order the candidates by the number of similar counterparts and returned the ordered list as the final recommendation of related code fragments to the user.
 \todo{distribution of number of candidate related methods, distribution of LOC of candidate related methods}
-
-
-\subsection{Chrome extension for SO}
-
 
 
 \subsection{Manual analysis and categorization}
