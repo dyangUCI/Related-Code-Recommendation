@@ -103,28 +103,28 @@ Finding similar code for a given code query can help programmers
 detect situations that they had overlooked, or that they did not know
 how to solve. Most code-to-code search tools aim at finding
 syntactically or semantically similar code given some code of
-interest. We take a different approach to code-to-code search: we want
-to recommend relevant {\em auxiliary} or {\em complementary}
+interest. We take a different approach to code-to-code search that
+recommends relevant {\em auxiliary} or {\em complementary}
 code. Such relevant code is not semantically similar to the code
-query, but it is may be important, because it works together with the
+query, but could be important to work together with the
 given code to accomplish a complete or related functionality.
 
-In this paper, we describe a code recommendation technique, CodeAid, that returns
-relevant code fragments in our search code base related to a code query. We
-use GitHub Java projects as our search code base. Given a source code method,
-we use a code clone detection tool to detect all its similar
-counterparts from different GitHub files, then recommend other related
-methods, based on co-occurrence statistics.
+In this paper, we describe a code recommendation technique, CodeAid, that returns 
+code fragments that are related to a given code query in a code corpus. Specifically, we
+use GitHub Java projects as our corpus and focus on method-level code retrieval. 
+Given a code fragment of interest, we use a code clone detection tool to detect all its similar
+counterparts across different GitHub files, and then recommend other related
+methods based on co-occurrence statistics.
 
-In order to evaluate the performance of CodeAid, we use Stack Overflow
-(SO) Java code snippets as queries, and measure the precision of the
-retrieved related methods. We gathered a query code base of 21,207 SO
-Java code snippets. For 11,110 of these, CodeAid returns their related
-code fragments. Then we manually evaluate the relevance of the
-recommended GitHub code. Using this methodology, CodeAid has a
-precision of 75.6\%. We also categorize the relationship between the
-recommended code and the SO query snippet, in order to shed light on
-how CodeAid can be useful in practice.
+In order to evaluate the effectiveness of CodeAid, we use Stack Overflow
+(SO) code snippets as queries, and measure the precision of the
+retrieved related methods. We gather a query code base of 21,207 SO
+ code snippets written in Java. For 11,110 of these snippets, CodeAid discovered related
+code fragments in GitHub and recommended to developers. We then manually evaluate 
+the relevance of recommended GitHub code. Using this methodology, CodeAid has a
+precision of 75.6\%. We also performan an in-depth analysis on a sample of these code snippets
+and categorize the relationship between a SO query snippet and recommended code, 
+sheding light on how CodeAid can be useful in practice.
 
 \end{abstract}
 
