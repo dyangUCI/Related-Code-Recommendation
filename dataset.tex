@@ -1,10 +1,16 @@
-section{Data Collection}
+\section{Data Collection}
 \label{sec:dataset}
 We apply our approach to Stack Overflow (SO) and GitHub. We use code snippets in SO as the pool of user-selected examples and use Java projects in GitHub as our code corpus to search from. We choose these two datasets not only because of their popularity within the programming community, but also because they are part of a larger system of software production. The same users that rely on the hosting and management characteristics of GitHub often have difficulties and need help on the implementation of their computer programs, seek support on SO for their specific problems, or hints of solutions from ones with a degree of similarity, and return to GitHub to apply the knowledge acquired. Previous work have shown that developers often copy and paste code snippets from Stack Overflow to their GitHub projects and make adaptations as needed~\cite{yang2017stack, an2017stack, wu2018developers, zhang2019analyzing}. Our approach will facilicate such opportunistic code reuse process when developers browse code snippets in SO. The use scenario will be: when a user is interested in a code snippet in SO, CodeAid recommends related code fragments from GitHub, showing what other code they may also want to investigate and integrate into their own project. 
 
 
 \subsection{GitHub}
-We downloaded Java projects on GitHub by querying GHTorrent. GHTorrent is a scalable, offline mirror of data offered through the GitHub REST API, available to the research community as a service~\cite{gousios2012ghtorrent}. It provides access to all the metadata of GitHub projects, e.g., the number of stars and commiters, main programming languages in a project, etc. Since GitHub has many toy projects that do not adequately reflect software engineering practices~\cite{kalliamvakou2014promises}, we only consider GitHub projects that have at least five stars. To account for internal duplication in GitHub~\cite{lopes2017dejavu}, we choose non-fork projects only and further remove duplicated GitHub files using the same file hashing method as in~\cite{lopes2017dejavu}, since such file duplication may skew our recommendations. As a result, we download 50,826 non-forked Java repositories with at least five stars from GitTorrent. After deduplication, 5,825,727 distinct Java files remain.
+We downloaded Java projects on GitHub by querying GHTorrent~\cite{gousios2012ghtorrent}. GHTorrent is a scalable, offline mirror of data offered through the GitHub REST API, available to the research community as a service. It provides access to all the metadata of GitHub projects, e.g., the clone url, the number of stars and committers, main programming languages in a project, etc. We use these metadata to screen the projects we would like to keep. Our project selection criteria are:
+\begin{itemize}
+	\item We only consider GitHub projects that have at least five stars, to avoid toy projects that do not adequately reflect software engineering practices~\cite{kalliamvakou2014promises}.
+	\item We only keep non-forked projects, because project forking leads to many identical projects and would unnecessarily skew our recommendation.
+	\item Prior work on GitHub cloning finds many identical files among GitHub projects, since developers may copy the whole file into another project without making any changes~\cite{lopes2017dejavu}. To account for this internal duplication in GitHub, we remove duplicated GitHub files using the same file hashing method as in~\cite{lopes2017dejavu}.
+\end{itemize} 
+As a result, we downloaded 50,826 non-forked Java repositories with at least five stars from GitTorrent. After deduplication, 5,825,727 distinct Java files remain.
 
 
 \subsection{Stack Overflow}
