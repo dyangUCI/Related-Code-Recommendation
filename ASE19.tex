@@ -118,7 +118,7 @@ methods, based on co-occurrence statistics.
 
 In order to evaluate the performance of CodeAid, we use Stack Overflow
 (SO) Java code snippets as queries, and measure the precision of the
-retrieved related methods. We gathered a query code base of 11,110 SO
+retrieved related methods. We gathered a query code base of 21,207 SO
 Java code snippets. For each of these, CodeAid returns their related
 code fragments. Then we manually evaluate the relevance of the
 recommended GitHub code. Using this methodology, CodeAid has a
@@ -150,18 +150,19 @@ similar code, it retrieves code within the functionality family of the
 code query. This broader context allows programmers to be aware of
 related code that may be useful when developing their own
 functions. {\tool} works by analyzing co-occurrences of code fragments
-in very large code bases, such as GutHub projects, and then clustering
+in very large code bases, such as GitHub projects, and then clustering
 those potential matches for a given code query.
 
 We evaluated {\tool} using a large dataset of code queries collected
 from Stack Overflow snippets, and a very large code base of Java
 projects collected from GitHub. The evaluation shows that {\tool} is
-able to find related fragments for \todo{XXX\%} of the queries, and
+able to find related fragments for 52.3\% of the queries, and
 that \todo{say something more concrete}. A closer look at a set of 30
-queries shows that {\tool} has a good precision of \todo{PPP}. This is
+queries shows that {\tool} has a good precision of 75.6\%. This is
 a promising result for a new approach to code search. 
 
-\todo{Say something about limitations and future work}
+The recommendation power of {\tool} strongly correlates with the quality of the dataset. To retrieve related code fragments, {\tool} requires the query code to have similar counterparts inside the search query corpus. Also, the 
+
 
 %\section*{References}
 

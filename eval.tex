@@ -2,12 +2,24 @@
 \label{sec:eval}
 
 \input{example-table}
+
 In this section, we describe the design of the assessment scenarios for \tool\ and report the evaluation results. Specifically, our experiments aim to address the following research questions:
 \begin{itemize}
-	\item \textbf{RQ1}: Are the code fragments recommended by \tool\ related to the query?
-	\item \textbf{RQ2}: What kinds of related code fragments do \tool\ recommend?
-	\item \textbf{RQ3}: Can we get the recommended related code fragments from code search engines?
+	\item \textbf{RQ1}: Can {\tool} retrieve related code fragments for the query?
+	\item \textbf{RQ2}: Are the code fragments recommended by \tool\ related to the query?
+	\item \textbf{RQ3}: What kinds of related code fragments do \tool\ recommend?
+	\item \textbf{RQ4}: Can we get the recommended related code fragments from code search engines?
 \end{itemize}
+
+\subsection{Quantitative Analysis}
+
+Within the 21,207 groups of SO snippet with GitHub files which contain similar methods to the SO snippet, we extract all co-occurred methods from these GitHub files and treat them as candidate related code fragments. Then for each candidate in each GitHub file, we retrieve its similar counterparts from other files. As a result, we get the co-occurred methods as our candidate related code fragments and for each candidate we also have the frequency of its similar counterparts. Not all groups have candidate methods and not all candidates have similar counterparts in other files, we have 11,110 SO snippets whose candidate related methods do have similar counterparts in other files, that can be taken as the candidate appears more than one files and we take this as a stronger signal for recommendation and only focus on these 11,110 groups from then on. Inside each group, we order the candidates by the number of similar counterparts and returned the ordered list as the final recommendation of related code fragments to the user.
+\todo{distribution of number of candidate related methods, distribution of LOC of candidate related methods}
+
+
+\subsection{Chrome extension for SO}
+
+
 
 \subsection{Manual analysis and categorization}
 We randomly select 30 SO snippets with its recommended related code fragments, and manually examine whether the recommended code fragments are related to the SO input or not, and categorize why we call the relationship a relevant one.
