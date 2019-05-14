@@ -52,6 +52,7 @@
 \newcommand{\removelatexerror}{\let\@latex@error\@gobble}
 \makeatother
 
+
 \title{CodeAid: Recommending Related Code
 %	\\
 %{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
@@ -161,9 +162,9 @@ able to find related fragments for 52.4\% of the queries. A closer look at a set
 queries shows that {\tool} has a good precision of 75.6\%. This is
 a promising result for a new approach to code search. 
 
-One limitation of {\tool} is that the recommendation power of {\tool} strongly correlates with the similarity behavior of the dataset. To retrieve related code fragments, {\tool} requires the query code to have similar counterparts in the search query corpus; it also asks for similar method pairs within search query corpus themself. 
+One limitation of {\tool} is that the recommendation power of {\tool} strongly correlates with the similarity behavior of the dataset. To retrieve related code fragments, {\tool} requires the query code to have similar counterparts in the search query corpus; it also asks for similar method pairs within search query corpus itself. 
 
-For future work, we may try different user-defined query code base and search code corpus to further evaluate {\tool}. For example the search code corpus can be the code base for a company or previous projects from a user. We may import the tool into a Eclipse plugin and help developers in real life programming process. The use scenario will be, when a user is currently writing a code fragment and uses it as query to search {\tool} plug-in, we will return the ranked list of related code from the company's code base or the user's own projects.
+For future work, we may try different user-defined query code base and search code corpus to further evaluate {\tool}. For example the search code corpus can be the code base for a company or previous projects from a user. We may import the tool into a Eclipse plugin and help developers during real life programming process. The use scenario will be, when a user is currently writing a code fragment and uses it as query to search {\tool} plug-in, we will return the ranked list of related code from the company's code base or the user's own projects.
 
 %\section*{References}
 

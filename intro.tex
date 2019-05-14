@@ -15,7 +15,7 @@ to match that specification.
 
 In this work, we look at code search from a different angle. Consider
 the following scenario. A programmer is implementing a Java method for
-file decompression; this method gets as input the path to a zip file,
+file decompression; this method gets an input the path to a zip file,
 and it unpacks all the files inside onto a target directory. This
 method could look like Listing~\ref{lst:mot-query}. For a single piece
 of functionality, such as unpacking a zip file, the code does what it
@@ -82,7 +82,7 @@ candidate related methods.
 % advantages of CodeAid
 {\tool} has the following properties:
 \begin{itemize}
-	\item It retieves functionality groups, which the user may want to implement together with the input query.
+	\item It retrieves functionality groups, which the user may want to implement together with the input query.
 	\item It has a clustering algorithm on top of co-occurrence to provide ranking.
 	\item It is not restricted to any programming language. The Java parser is only used to chunk the file into methods, it can be replaced by the parser from any languages as needed.
 	\item It has flexible granularity level. We can chunk the files into blocks of any size. All similarity comparison processes are token-based, which means as long as we have the token list representing the block, it does not matter what size the block is.
