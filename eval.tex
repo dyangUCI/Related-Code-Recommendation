@@ -33,6 +33,8 @@ We find the following types of relevance in our sample set:
 \end{itemize}
 
 \begin{table}
+	\caption{Categorization of related methods}
+	\label{tab:categorization}
 	\begin{center}
 		\begin{tabular}{ c|cc } 
 			Category & Top 1 & Top 3 \\\hline
@@ -42,15 +44,20 @@ We find the following types of relevance in our sample set:
 			Not related & 6 & 22 \\\hline
 		\end{tabular}		
 	\end{center}
-	\caption{Categorization of related methods}
-	\label{tab:categorization}
+
 \end{table}
 	
 	
 
-\subsubsection{Complementary method} In this category, the query code can function alone, but the recommended related method provides extra functionality to the query code and will further complete the user class. For the example shown as Listing ~\ref{lst:mot-query} and ~\ref{lst:mot-related} in Section~\ref{sec:intro}, the query snippet implements unzip a folder in Java.  \tool\ recommends {\ttt zip} function. These two methods can function independently, but often implemented together to get a stronger ability for file manipulation. Similarly, {\ttt decrypt} function for {\ttt encrypt} and {\ttt onPause} function for {\ttt onCreate} in Table \ref{tab:compl-examples}. The two methods do not have any direct function call association between them, but they complete each other with extra functionality and are often implemented together in real-life scenarios. 
+\subsubsection{Complementary method} In this category, the query code can function alone, but the recommended related method provides extra functionality to the query code and will further complete the user class. For the example shown as Listing \ref{lst:mot-query} and \ref{lst:mot-related} in Section~\ref{sec:intro}, the query snippet implements unzip a folder in Java.  \tool\ recommends {\ttt zip} function. These two methods can function independently, but often implemented together to get a stronger ability for file manipulation. 
 
-\subsubsection{Supplementary method} The recommended related code serves as a helper function to the query, or vice versa. One may make function call to the other. For example the {\ttt merge} function for {\ttt sort}. {\ttt sort} calls {\ttt merge} as a helper function and cannot achieve functionality without it. Also in our first example in Table ~\ref{tab:suppl-examples}, our recommended related code {\ttt loadDrawable} calls {\ttt queueJob} inside its method body. There is another related method being recommended together, which is shown below in Listings \ref{lst:part2}. This code is also called by {\ttt loadDrawable}, the related methods give the user a broader picture of the whole class, point to a higher level of functionality the user may want to implement, and also direct the user to the most-frequently used higher level functionality and its auxiliaries.
+Similarly, {\tool} recommends {\ttt decrypt} function for {\ttt encrypt} and {\ttt onPause} function for {\ttt onCreate} in Table \ref{tab:compl-examples}. The two methods in each pair do not have any direct function call association between them, but they complete each other with extra functionality and are often implemented together in real-life scenarios. 
+
+\subsubsection{Supplementary method} The recommended related code serves as a helper function to the query, or vice versa. One may make function call to the other. For example the {\ttt merge} function for {\ttt sort}. {\ttt sort} calls {\ttt merge} as a helper function and cannot achieve functionality without it. 
+
+In our first example in Table \ref{tab:suppl-examples}, our recommended related code {\ttt loadDrawable} calls {\ttt queueJob} inside its method body. 
+There is another related method being recommended together with {\ttt loadDrawable}, which is shown below in Listings \ref{lst:part2}. {\ttt loadDrawable} also makes a function call to {\ttt getDrawableFromCache} inside its method body, The related methods give the user a broader picture of the whole class, point to a higher level of functionality the user may want to implement, and also direct the user to the most-frequently used higher level functionality and its auxiliaries.
+
 \begin{lstlisting}[caption={Recommended code \#2}, label={lst:part2}]
 public static Drawable getDrawableFromCache(String url) {
 	if (DrawableManager.cache.containsKey(url)) {
