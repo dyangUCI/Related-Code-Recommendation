@@ -142,9 +142,26 @@ code recommendation, related code, code search, mining software repositories
 \section{Conclusion}
 \label{sec:conclude}
 
+We have presented {\tool}, a code-to-code search technique and tool
+that recommends code fragments related to the code query. The
+information need that underlies the design of {\tool} is different
+from that of traditional code search engines: rather than retrieving
+similar code, it retrieves code within the functionality family of the
+code query. This broader context allows programmers to be aware of
+related code that may be useful when developing their own
+functions. {\tool} works by analyzing co-occurrences of code fragments
+in very large code bases, such as GutHub projects, and then clustering
+those potential matches for a given code query.
 
+We evaluated {\tool} using a large dataset of code queries collected
+from Stack Overflow snippets, and a very large code base of Java
+projects collected from GitHub. The evaluation shows that {\tool} is
+able to find related fragments for \todo{XXX\%} of the queries, and
+that \todo{say something more concrete}. A closer look at a set of 30
+queries shows that {\tool} has a good precision of \todo{PPP}. This is
+a promising result for a new approach to code search. 
 
-
+\todo{Say something about limitations and future work}
 
 %\section*{References}
 
