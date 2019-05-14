@@ -2,7 +2,7 @@
 \label{sec:intro}
 
 Over the past decade, code search has emerged as an interesting, but
-challenging, topic in both research and practice. Various code search
+challenging, topic to both industry and research communities. Various code search
 techniques have been proposed in the
 literature~\cite{bajracharya2009sourcerer,reiss2009semantics,lazzarini2009applying,mcmillan2012exemplar}, and
 some search code engines have been implemented and are, or were, publicly
@@ -13,24 +13,23 @@ to match that specification.
 
 % motivation example
 
-In this work, we look at code search from a different angle. Consider
+This work addresses the code search problem from a different angle. Consider
 the following scenario. A programmer is implementing a Java method for
-file decompression; this method gets as input the path to a zip file,
-and it unpacks all the files inside onto a target directory. This
-method could look like Listing~\ref{lst:mot-query}. For a single piece
-of functionality, such as unpacking a zip file, the code does what it
-is supposed to do, but the programmer wants to know what else may be
-related to this functionality, in case they will also need that in the
-future. They want to have a broader idea of the family of related
-functions for zip file manipulation, in general. If other extra
-functionality co-occurs often with unzipping, they may want to add it
-to their own project too. One example of this kind of extra
-functionality is shown in Listing \ref{lst:mot-related}, a method that
-zips a list of files from a folder into the target zip file. Unzipping
-and zipping are two directions of file manipulation. They can work
-independently, but they are often implemented together, to facilitate
-possible needs from any direction. We call the zip method a
-\textit{related code fragment} to the unzip method.
+file decompression; this method gets as input the path to a zip file
+ unpacks all files within the zip into a target directory, as shown in 
+ Listing~\ref{lst:mot-query}. This piece of code is sufficient for 
+ a simple program task of unpacking a zip file. However, in pratice, the programmer 
+ may undertake a more complex programming task where unzipping a file is a small,
+ integral part. Therefore, the programmer may also want to know what else may be
+related to this functionality. %, in case they will also need that in the future. 
+The programmer may also want to have a comprehensive understanding of the collection of related
+functions for zip file manipulation, in general. If an additional
+functionality often co-occurs with unzipping, the programmer may want to add it
+to her own project as needed. Listing \ref{lst:mot-related} shosws an example of this kind of additional 
+functionalities---a method that zips a list of files from a folder into the target zip file. Unzipping
+and zipping are two kinds of file manipulation in the opposite direction. 
+Though these two functions work independently, they are often implemented together in a codebase to facilitate
+possible needs from any direction. We consider the zip method and the unzip method {\em related} to each other, or {\em complementary code fragement}, to be more specifically.
 
 \input{motivating}
 % code search and code completion
