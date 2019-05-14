@@ -34,13 +34,14 @@ possible needs from any direction. We consider the zip method and the unzip meth
 \input{motivating}
 % code search and code completion
 
-Code-to-code search engines could potentially be used to get code
-recommendations for our unzipping example. For example, code-to-code search tools
-~\cite{kim2018Facoy, krugle, searchcode} could take the code snippet
-as query and retrieve similar code snippets from their code
-corpora. However, such code-to-code search tools aim at finding
-similar code, not extra functionality, so they retrieve several
-versions of unzipping files. 
+Code-to-code search engines could potentially be used to retrieve releveant code examples
+to a given code query~\cite{kim2018Facoy, krugle, searchcode}. 
+However, these techniques aim at finding syntactically or semantically 
+similar code fragments only, without considering about auxiliary or complementary functionality. 
+For instance, given an unzip function, they cannot find a complementary zip function, since neither
+the implementation nor the functionality of these two operations are similar. However, as discussed earlier,
+such complementary methods often co-occur in the same source file or the same codebase, which serves as 
+an interesting property to exploit for recommending relevant code examples.
 
 Pattern-based code completion tools~\cite{nguyen2009groum,
   nguyen2012grapacc} also recommend completing code for a given code
@@ -101,9 +102,5 @@ We present both a quantitative and qualitative analysis of the results.
 We build a chrome extension for Stack Overflow as a proof of concept and also to help with the qualitative evaluation.
 
 The rest of the paper is organized as follows: Section
-\ref{sec:approach}, we describe the algorithm {\tool} uses to generate
-recommendations. In Section \ref{sec:eval}, we manually analyze how
-relevant {\tool} recommendations are, and what kinds of relevance they
-provide. We also compare {\tool} results with those from code search
-engines in this section. The use scenario of the chrome extension is introduced in Section \ref{sec:chrome}. Section \ref{sec:related} presents the
-related work. Finally, Section \ref{sec:conclude} concludes the paper.
+\ref{sec:approach} describes the algorithm {\tool} uses to generate
+recommendations. Section \ref{sec:eval} presents the manual analysis result of recommended code by {\tool} in terms of code relevance. We also compare {\tool} with existing code search engines in this section. \ref{sec:chrome} illustrates the instantiation of {\tool} as a chrome extension as well as a use scenario in a web browser. Section \ref{sec:related} describes and Section \ref{sec:conclude} concludes the paper.
