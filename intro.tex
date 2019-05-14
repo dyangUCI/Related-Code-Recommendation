@@ -1,39 +1,109 @@
 \section{Introduction}
 \label{sec:intro}
 
+Over the past decade, code search has emerged as an interesting, but
+challenging, topic in both research and practice. Various code search
+techniques have been proposed in the
+literature~\cite{sourcerer,reiss:icse2009,codegenie,exemplar:tse:2011}, and
+some search code engines have been implemented and are, or were, publicly
+available~\cite{google_code_search,github,codase,krugle,ohloh,searchcode}. All
+of these code search engines take some specification as input (a
+query, a code fragment, or a test) and retrieve pieces of code that try
+to match that specification.
 
 % motivation example
 
-Suppose a programmer is in the middle of impelmenting a Java class for files manipulation. They get an input of a zip file and need to do further processing on each file, so they write a method as in Listing \ref{lst:mot-query}, which reads the zip file from a given path, and write all files inside to a target directory. For a single functionality, the code looks good for now, but the programmer wants to know what others have implemented together with this functionality, in case they will also need that in the future. They want to have a broader idea of the functionalities needed in these file-manipulation classes in general. If other extra functionalities co-occur a lot with unzipping from other programmers, they may want to add them to their own projects too. One example of this kind of extra functionality is shown in Listings \ref{lst:mot-related}, to zip a list of files from a folder into the target zip file. Unzipping and zipping are two directions of file manipulation. They can work independently, but they are often implemented together, to facilitate possible needs from any direction. We call the zip method a \textit{related code fragment} to the unzip method.
+In this work, we look at code search from a different angle. Consider
+the following scenario. A programmer is implementing a Java method for
+file decompression; this method gets as input the path to a zip file,
+and it unpacks all the files inside onto a target directory. This
+method could look like Listing~\ref{lst:mot-query}. For a single piece
+of functionality, such as unpacking a zip file, the code does what it
+is supposed to do, but the programmer wants to know what else may be
+related to this functionality, in case they will also need that in the
+future. They want to have a broader idea of the family of related
+functions for zip file manipulation, in general. If other extra
+functionality co-occurs often with unzipping, they may want to add it
+to their own project too. One example of this kind of extra
+functionality is shown in Listing \ref{lst:mot-related}, a method that
+zips a list of files from a folder into the target zip file. Unzipping
+and zipping are two directions of file manipulation. They can work
+independently, but they are often implemented together, to facilitate
+possible needs from any direction. We call the zip method a
+\textit{related code fragment} to the unzip method.
 
 \input{motivating}
 % code search and code completion
 
-Code-to-code search engines could potentially be used to get code recommendations. For example, code-to-code search tools ~\cite{kim2018Facoy, krugle, searchcode} could take a code snippet as query and retrieve similar code snippets from a code corpus. However, such code-to-code search tools target at finding similar codes, not extra functionality. 
+Code-to-code search engines could potentially be used to get code
+recommendations for our unzipping example. For example, code-to-code search tools
+~\cite{kim2018Facoy, krugle, searchcode} could take the code snippet
+as query and retrieve similar code snippets from their code
+corpora. However, such code-to-code search tools aim at finding
+similar code, not extra functionality, so they retrieve several
+versions of unzipping files. 
 
-Pattern-based code completion tools~\cite{nguyen2009groum, nguyen2012grapacc} also recommend completing code to the query code. They mine common API usage patterns from a large code corpus. For a given partial snippet as query, if it matches a prefix of a mined pattern, the tool recommends the rest of the pattern for completion. Such tools only work for the mined patterns; that is, they cannot recommend any code outside the mined patterns.
+Pattern-based code completion tools~\cite{nguyen2009groum,
+  nguyen2012grapacc} also recommend completing code for a given code
+query. They do so by mining common API usage patterns from a large
+code corpus. For a given partial snippet as query, if it matches a
+prefix of a mined pattern, the tool recommends the rest of the pattern
+for completion. Again, such tools only work for the mined patterns;
+that is, they do not recommend code outside the mined patterns.
 
-For both code seasrch engines and pattern-based code completion tools, the relevant code nippets they retrieve may have extra lines of code with more functionality, but they do not remove similar lines to the query and do not have the concept of commonly used extra code.
+For both code search engines and pattern-based code completion tools,
+the retrieved code snippets may have extra lines of code with more
+functionality, but they are not designed to search for commonly used
+additional code.
 
-We aim to recommend code fragments as shown in Listing \ref{lst:mot-query}, \ref{lst:mot-related}, for programmers to learn related functionalities that commonly co-occur with their current one.
-
-We propose {\tool}, a recommendation engine for related code. Given a code snippet as input query and a large corpus of code containing millions of code fragments, {\tool} returns a set of recommended code fragments such that:
+The goal of our work is to support the search needs shown in Listings
+\ref{lst:mot-query} and \ref{lst:mot-related}. In this paper, we
+describe {\tool}, a recommendation engine for related code. Given a
+code snippet as input query and a large corpus of code containing
+millions of code fragments, {\tool} returns a set of recommended code
+fragments such that:
 \begin{itemize}
 	\item the recommended code fragments co-occur with similar counterparts of the input query.
-	\item the recommended code fragments are ranked by its frequency of occurrence in these files.
+	\item the recommended code fragments are ranked by their
+          relevance as complements to the input query.
 \end{itemize}
 
 
-In this work, we focus on method-level code fragments written in Java. Both the query snippet and the recommended related code fragments are Java methods. {\tool} works by first tokenize the query and all methods in the code corpus. It uses token similarity to detect similar counterparts to the query in the code corpus. We appoint this process to a clone detection tool called SourcererCC~\cite{sajnani2016sourcerercc}. Then {\tool} recognizes other methods which co-occur with these similar counterparts as candidate related methods. 
+For the time being, we focus on method-level code fragments written in
+Java. Both the query snippet and the recommended related code
+fragments are Java methods. {\tool} works by first tokenizing the
+query and all methods in the code corpus. It then uses token
+similarity to detect similar counterparts to the query in the code
+corpus. We delegate this process to a clone detection tool,
+SourcererCC~\cite{sajnani2016sourcerercc}. Finally, {\tool} recognizes
+other methods which co-occur with these similar counterparts as
+candidate related methods.
 
 % advantages of CodeAid
-The advantages of {\tool} are:
+{\tool} has the following properties:
 \begin{itemize}
-	\item It provides extra functionalities which the user may also want to implement together with the input query.
-	\item It has a clustering process on top of co-occurrence to provide ranking.
+	\item It retieves functionality groups, which the user may want to implement together with the input query.
+	\item It has a clustering algorithm on top of co-occurrence to provide ranking.
 	\item It is not restricted to any programming language. The Java parser is only used to chunk the file into methods, it can be replaced by the parser from any languages as needed.
 	\item It has flexible granularity level. We can chunk the files into blocks of any size. All similarity comparison processes are token-based, which means as long as we have the token list representing the block, it does not matter what size the block is.
-	\item It is fast enough to be used in real time. The most time-consuming part is similar code detection. However, generating the indexes is a one-time labor and can be done before inputting any query.	
+	\item It is fast enough to be used in real time. The most
+          time-consuming part is similar code detection. However,
+          generating the indexes is a one-time task and can be done
+          before any query is processed.	
 \end{itemize}
 
-The rest of the paper is organized as follows: Section \ref{sec:approach}, we describe the algorithm {\tool} uses to generate recommendations. In Section \ref{sec:eval}, we manually analyze how relevant {\tool} recommendations are, and what kinds of relevance they provide. We also compare {\tool} results with those from code search engines in this section. Section \ref{sec:related} presents the related work. Finally, Section \ref{sec:conclude} concludes the paper.
+In order to evaluate {\tool}, we use two datasets: (1) a query dataset
+consisting of 11,110 Java code snippets collected from Stack Overflow
+(SO), and (2) a large Java code base consisting of \todo{XXX} projects
+collected from GitHub, with over \todo{YYY} lines of code. We then run
+each query in the query dataset through {\tool} and collect the
+recommended fragments coming from the code base. We present both a
+quantitative and qualitative analysis of the results.
+
+The rest of the paper is organized as follows: Section
+\ref{sec:approach}, we describe the algorithm {\tool} uses to generate
+recommendations. In Section \ref{sec:eval}, we manually analyze how
+relevant {\tool} recommendations are, and what kinds of relevance they
+provide. We also compare {\tool} results with those from code search
+engines in this section. Section \ref{sec:related} presents the
+related work. Finally, Section \ref{sec:conclude} concludes the paper.
