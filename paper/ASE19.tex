@@ -1,0 +1,175 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage[ruled,norelsize]{algorithm2e}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{soul}
+\usepackage{url}
+
+\newcommand{\ttt}[1]{\tt\small{#1}}
+\newcommand{\tool}{{\ttt CodeAid}}
+\lstset{
+	% numbers=left,
+	% numberstyle=\tiny,
+	% backgroundcolor=\color{light-gray},
+	basicstyle=\scriptsize\ttfamily,
+	breaklines=true,
+	breakatwhitespace=true,
+	captionpos=b,
+	columns=flexible,
+	escapeinside={(*@}{@*)},
+	frame=tb,
+	framerule=0.6pt,
+	% xleftmargin=\parindent,
+	% xrightmargin=\parindent,
+	language=Java,
+	% numbersep=5pt,
+	showstringspaces=false
+}
+\newcommand{\explanation}[1]{
+	\parbox{0.45\textwidth}{
+		\rule{0.4\textwidth}{0.1pt}
+		\vspace*{0.5em} \\
+		{#1}
+	}
+}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\newcommand\todo[1]{\textcolor{red}{TODO: #1}}
+
+\makeatletter
+\newcommand{\removelatexerror}{\let\@latex@error\@gobble}
+\makeatother
+
+
+\title{CodeAid: Recommending Related Code
+%	\\
+%{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
+%should not be used}
+%\thanks{Identify applicable funding agency here. If none, delete this.}
+}
+
+%\author{\IEEEauthorblockN{1\textsuperscript{st} Given Name Surname}
+%\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+%\textit{name of organization (of Aff.)}\\
+%City, Country \\
+%email address}
+%\and
+%\IEEEauthorblockN{2\textsuperscript{nd} Given Name Surname}
+%\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+%\textit{name of organization (of Aff.)}\\
+%City, Country \\
+%email address}
+%\and
+%\IEEEauthorblockN{3\textsuperscript{rd} Given Name Surname}
+%\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+%\textit{name of organization (of Aff.)}\\
+%City, Country \\
+%email address}
+%\and
+%\IEEEauthorblockN{4\textsuperscript{th} Given Name Surname}
+%\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+%\textit{name of organization (of Aff.)}\\
+%City, Country \\
+%email address}
+%\and
+%\IEEEauthorblockN{5\textsuperscript{th} Given Name Surname}
+%\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+%\textit{name of organization (of Aff.)}\\
+%City, Country \\
+%email address}
+%\and
+%\IEEEauthorblockN{6\textsuperscript{th} Given Name Surname}
+%\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+%\textit{name of organization (of Aff.)}\\
+%City, Country \\
+%email address}
+%}
+
+\maketitle
+
+\begin{abstract}
+Finding similar code for a given code query can help programmers
+detect situations that they had overlooked, or that they did not know
+how to solve. Most code-to-code search tools aim at finding
+syntactically or semantically similar code given some code of
+interest. We take a different approach to code-to-code search that
+recommends relevant {\em auxiliary} or {\em complementary}
+code. Such relevant code is not semantically similar to the code
+query, but could be important to work together with the
+given code to accomplish a complete or related functionality.
+
+In this paper, we describe a code recommendation technique, CodeAid, that returns 
+code fragments that are related to a given code query in a code corpus. Specifically, we
+use GitHub Java projects as our corpus and focus on method-level code retrieval. 
+Given a code fragment of interest, we use a code clone detection tool to detect all its similar
+counterparts across different GitHub files, and then recommend other related
+methods based on co-occurrence statistics.
+
+In order to evaluate the effectiveness of CodeAid, we use Stack Overflow
+(SO) code snippets as queries, and measure the precision of the
+retrieved related methods. We gather a query code base of 21,207 SO
+ code snippets written in Java. For 11,110 of these snippets, CodeAid discovered related
+code fragments in GitHub and recommended to developers. We then manually evaluate 
+the relevance of recommended GitHub code. Using this methodology, CodeAid has a
+precision of 75.6\%. We also performan an in-depth analysis on a sample of these code snippets
+and categorize the relationship between a SO query snippet and recommended code, 
+sheding light on how CodeAid can be useful in practice.
+
+\end{abstract}
+
+\begin{IEEEkeywords}
+code recommendation, related code, code search, mining software repositories
+\end{IEEEkeywords}
+
+\input{intro}
+\input{approach}
+\input{dataset}
+\input{eval}
+\input{chrome}
+\input{related}
+
+
+\section{Conclusion}
+\label{sec:conclude}
+
+We have presented {\tool}, a code-to-code search technique and tool
+that recommends code fragments related to the code query. The
+information need that underlies the design of {\tool} is different
+from that of traditional code search engines: rather than retrieving
+similar code, it retrieves code within the functionality family of the
+code query. This broader context allows programmers to be aware of
+related code that may be useful when developing their own
+functions. {\tool} works by analyzing co-occurrences of code fragments
+in very large code bases, such as GitHub projects, and then clustering
+those potential matches for a given code query.
+
+We evaluated {\tool} using a large dataset of code queries collected
+from Stack Overflow snippets, and a very large code base of Java
+projects collected from GitHub. The evaluation shows that {\tool} is
+able to find related fragments for 52.4\% of the queries. A closer look at a set of 30
+queries shows that {\tool} has a good precision of 75.6\%. This is
+a promising result for a new approach to code search. 
+
+One limitation of {\tool} is that the recommendation power of {\tool} strongly correlates with the similarity behavior of the dataset. To retrieve related code fragments, {\tool} requires the query code to have similar counterparts in the search query corpus; it also asks for similar method pairs within search query corpus itself. 
+
+For future work, we may try different user-defined query code base and search code corpus to further evaluate {\tool}. For example the search code corpus can be the code base for a company or previous projects from a user. We may import the tool into a Eclipse plugin and help developers during real life programming process. The use scenario will be, when a user is currently writing a code fragment and uses it as query to search {\tool} plug-in, we will return the ranked list of related code from the company's code base or the user's own projects.
+
+%\section*{References}
+
+\bibliographystyle{plain}
+
+\bibliography{ref}
+
+\end{document}
