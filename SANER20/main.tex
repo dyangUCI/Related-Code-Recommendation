@@ -62,18 +62,21 @@
 \maketitle
 
 \begin{abstract}
-%Recommending related code of a given query can help programmers detect
-%situations that they have overlooked, or that they did not know how to solve.
-Code-to-code search can help developers find similar solutions and identify possible improvment opportunities or alternative choices. 
-%Existing code-to-code search tools only identify syntactically or semantically
-%similar code given a code of interest. These tools focus on the counterparts
-%themselves, while ignoring the co-occurring code fragments with the counterpart.
-Existing search tools only recommend other code locations that are syntactically similar to the given code but do not reason about other kinds of relevant code that a developer should also pay attention to, e.g., an auxiliary function to accomplish a complete task.  
+
+Code-to-code search can help developers find similar solutions and identify possible improvement opportunities or alternative choices. 
+Existing search tools only recommend other code locations that are syntactically or semantically similar to the given code but do not reason about other kinds of relevant code that a developer should also pay attention to, e.g., an auxiliary function to accomplish a complete task.  
 %Though such surrouding, co-occurring code fragments are not similar to the given code query, they might be necessary to work together with the given code to accomplish a complete task or provide auxilary functionality. 
 There is also limited understanding about what other kinds of code relevancy may exist in practice beyond code similarity and thus should be incorporated into modern code search engines. 
 To bridge the gap, this paper presents an in-depth analysis of other code fragments that co-occur with similar code that a regular search engine typically recommends and their relevance to the given code query.
 
-To this end, we first constructed a large dataset of 21K groups of similar code written in Java, using Stack Overflow code snippets as queries and identifying their counterparts in GitHub via clone detection. For more than half of these SO code snippets, their GitHub counterparts share common code that co-occurs in the same Java file yet not similar to the original queries.\todo{Di: let's do another experiment to report the similarity of those common related code fragments to the original queries.} We manually inspected a random sample of \todo{X} commonly co-occurring code fragments and found 76\% of them represent relevant functionality that should be included in code search results. Furthermore, we identified three major types of relevant co-occurring code---{\em complementary}, {\em supplementary}, and {\em alternative} functions. This study result calls for a new search engine that accounts for such code relevance beyond code similarity.  %the prevalence and usefulness of relevant co-occuring functions. At the end, we implemented a code search tool that incorporates such relevant functions as a possible tool design.
+To this end, we first constructed a large data set of 21K groups of similar code written in Java, using Stack Overflow code snippets as queries and identifying their counterparts in GitHub via clone detection. For more than half of these SO code snippets, their GitHub counterparts share common code that co-occurs in the same Java file yet not similar to the original queries. We manually inspected a random sample of 50 commonly co-occurring code fragments and found 76\% of them represent relevant functionality that should be included in code search results. Furthermore, we identified three major types of relevant co-occurring code---{\em complementary}, {\em supplementary}, and {\em alternative} functions. This study result calls for a new search engine that accounts for such code relevance beyond code similarity.  %the prevalence and usefulness of relevant co-occuring functions. At the end, we implemented a code search tool that incorporates such relevant functions as a possible tool design.
+
+%Recommending related code of a given query can help programmers detect
+%situations that they have overlooked, or that they did not know how to solve.
+%Existing code-to-code search tools only identify syntactically or semantically
+%similar code given a code of interest. These tools focus on the counterparts
+%themselves, while ignoring the co-occurring code fragments with the counterpart.
+
 
 %In this paper, we describe a technique to find and rank co-occurring code
 %fragments to a given code query in a code corpus. Specifically, we use GitHub
@@ -97,10 +100,11 @@ To this end, we first constructed a large dataset of 21K groups of similar code 
 \end{abstract}
 
 \begin{IEEEkeywords}
-code recommendation, related code, code search, mining software repositories
+code search, related code, mining software repositories
 \end{IEEEkeywords}
 
 \section{Introduction}
+\todo{Di: let's do another experiment to report the similarity of those common related code fragments to the original queries.}
 This document is a model and instructions for \LaTeX.
 Please observe the conference page limits. 
 
