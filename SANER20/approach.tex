@@ -1,0 +1,93 @@
+\section{Data Collection Approach}
+\label{sec:approach}
+Our approach {\tool} takes a code fragment as input and searches a code corpus to identify related code fragments. Given a user-selected code fragment, {\tool} first detects its similar methods in the corpus based on syntactic similarity. Then {\tool} traces back to the containing files of these similar methods and identifies other co-occurring methods in these files as candidate methods. For each candidate method, we further measure its similarity to methods in other files, and cluster similar methods. Then we rank candidate methods based on the size of cluster it centers. Figure~\ref{fig:pipeline} describes the pipeline of finding common co-occurring code fragments in {\tool}. 
+
+
+\begin{figure}
+	\includegraphics[width=\linewidth]{figures/pipeline.pdf}
+	\caption{The pipeline of {\tool}}
+	\label{fig:pipeline}
+\end{figure}
+
+\subsection{Retrieve similar methods}
+\subsubsection{Parse a code corpus}
+We focus on method-level code fragments written in Java in this work. We parse all Java source files to abstract syntax trees (ASTs) and traverse the ASTs to extract all defined methods. Note that the approach is not limited to any programming language. We can switch to any other language by using its particular parser. We use the phrases code fragments and methods interchangeably in the paper.
+
+\subsubsection{Tokenization}
+Tokenization is the process of transforming source code into a bag of words. Tokenization starts from removing comments, spaces, tabs and other special characters. Then it identifies distinct tokens and count their frequencies. For each method, the result of tokenization is formatted as a list of tuples such as {\ttt (token, freq)}, where the first element is a token in the method and the second element refers to the token occurrence in the method.
+
+We tokenize both the input code fragment and all methods in the code corpus, in preparation for the next step of finding similar pairs.
+
+\subsubsection{Search for similar methods}
+For the input code fragment, we retrieve its similar counterparts from the code corpus using a token-based clone detection tool called SoucererCC~\cite{sajnani2016sourcerercc}. By evaluating the scalability, execution time, recall and precision of SourcererCC, and comparing it to publicly available and state-of-the-art tools, SourcererCC has been shown to have both high recall and precision, and is able to scale to a large repository using a standard workstation. All of the above make SourcererCC a good candidate for building our code recommendation engine. 
+
+%Given a similarity threshold, SoucererCC takes three steps to detect clones. First, it tokenizes a code snippet to a set of tokens. This tokenization step removes comments, whitespaces, and special characters and also counts the frequency of individual tokens. Second, SoucererCC creates a partial index of each snippet by selecting and indexing a subset of tokens based on heuristics, and builds an inverted index mapping between tokens and code snippets. Finally, SoucererCC iterates through all snippets and finds candidate clones of each snippet by querying the inverted index mapping. After retrieving the candidates, SoucererCC uses another heuristic which exploits ordering of the tokens in a snippet to verify the candidates and locate the clones. 
+We use 70\% similarity threshold, because it yields the best precision and recall on multiple clone benchmarks~\cite{sajnani2016sourcerercc}. SourcererCC takes the token lists of the input code fragment and all methods in the code corpus, and returns the similar methods to the input in the code corpus. As shown in Figure \ref{fig:pipeline}, the user input has three similar counterparts in our code corpus, which are {\ttt Method A} in {\ttt File1}, {\ttt Method E} in {\ttt File2}, and {\ttt Method G} in {\ttt File3}.
+
+\subsection{Identify co-occurring code fragments}
+Given those similar code fragments identified in the previous step, we trace back to the files that contain these similar counterparts and identify co-occurring methods in the same file as a potentially related code fragment. Algorithm 1 gives a more formal description of the process.
+
+\begin{figure}[h]
+		\label{alg: co-occur}
+ \removelatexerror
+\begin{algorithm}[H]
+	\caption{Identify co-ocurring code fragments}
+	\KwData{similar methods}
+	\KwResult{co-occurring methods}
+	initialize $resultList$\;
+	\For{$m_s$ in $similarMethods$}
+	{
+		$ghFiles$ = traceGitHubFiles(method) \;
+		\For{$f$ in $ghFiles$}
+		{
+			$methodsInFile$ = parse($f$)\;
+			\For{$m_f$ in $methodsInFile$}
+			{
+				\If {$m_f$ is not $m_s$}
+				{
+					$resultList$.add($m_f$) \;
+				}
+			}
+		} 
+	}
+\end{algorithm}
+\end{figure}
+
+{\ttt Method A, E, G} are the three similar methods detected by SourcererCC. {\ttt File 1, 2, 3} are the three GitHub files contain these similar methods respectively. 
+{\ttt File1} also contains {\ttt Method B, C}, {\ttt File2} has another two methods {\ttt Method D, F}, and {\ttt Method H} is {\ttt File3}. Therefore, {\ttt Method B, C, D, F, H} will be returned as co-occurring methods by Algorithm 1 and they are taken as our candidate for related code fragments.
+
+\subsection{Clustering and Ranking}
+\subsubsection{Cluster co-occurring code fragments}
+We further get the token lists for those candidate methods identified in the previous step and remove duplicate candidates. In order to detect common co-occurring code fragments, we cluster the remaining unique candidate methods
+based on their token similarity. Given each candidate method, we compute its similarity to other candidates from different GitHub files. Each candidate will serve as the center of a cluster, we browse among other candidates from different files and add similar candidates to the current cluster.
+
+\begin{figure}[h]
+	\label{alg: Clustering candidate related methods}
+	\removelatexerror
+	\begin{algorithm}[H]
+		\caption{Clustering candidate related code fragments}
+		\KwData{$n$ candidate related methods}
+		\KwResult{clustered candidate methods}
+		initialize $clusters$ = $\{X_1, X_2,..., X_n\}$\;
+		\For{$m_i$ in $candidateMethods$}
+		{
+			$X_i$.add($m_i$) \;
+			\For{$m_j$ in $candidateMethods$}
+			{
+				\If {$m_i$ and $m_j$ do not come from the same file}
+				{
+					\If {tokenSimilarity($m_i$, $m_j$) $>$ 0.7)}
+					{
+						$X_i$.add($m_j$);
+					}
+				}
+			} 
+		}
+	\end{algorithm}
+\end{figure}
+
+For the candidate pool, {\ttt Method B, C, D, F, H}, each candidate will be the center of a cluster. For {\ttt Method B}, we compute token similarity with {\ttt Method D, F, H} and get two similar ones, {\ttt Method D, H}, so we add these two similar methods to the cluster, resulting in cluster size being three. Similarly, we add {\ttt Method F} to the cluster centered by {\ttt Method C} and get a cluster with size two.
+
+\subsubsection{Screen and rank clusters by size}
+After getting the candidate clusters, we keep only clusters with size being at least two. This means the center of the cluster has occurred at least twice among the GitHub files.
+We rank the remaining clusters by size and return the cluster centers as our final list of common co-occurring code fragments with ranking. If two clusters have the same size, we will order them by the line number distance between the cluster center and counterparts of the query, in ascending order. We will return {\ttt Method B} first, and then {\ttt Method C}, as our common co-occurring code fragments.
