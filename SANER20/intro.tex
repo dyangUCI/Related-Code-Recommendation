@@ -1,106 +1,123 @@
 \section{Introduction}
 \label{sec:intro}
-\todo{color the code examples based on Java syntax. Be careful with the use of "related methods", "recommended methods", "common co-occurring methods"}
+%\todo{color the code examples based on Java syntax. Be careful with the use of "related methods", "recommended methods", "common co-occurring methods"}
 Over the past decade, code search has emerged as an interesting, but
 challenging, topic to both industry and research communities. Various code search
 techniques have been proposed in the
 literature~\cite{bajracharya2009sourcerer,reiss2009semantics,lazzarini2009applying,mcmillan2012exemplar}, and
 some search code engines have been implemented and are, or were, publicly
-available~\cite{googlesearch, github,codase,krugle,ohloh,searchcode}. All
-of these code search engines take some specification as input (a
-query, a code fragment, or a test) and retrieve pieces of code that try
-to match that specification.
+available~\cite{googlesearch, github,codase,krugle,ohloh,searchcode}. Code search engines 
+take some specification as input (e.g., a keyword description, a code fragment, or a test) and 
+recommends pieces of code that match the given specification based on some forms of ``similarity'' measurement.
 
 % motivation example
 
-This work addresses the code search problem from a different angle. Consider
+This work explores the opportunities of searching relevant code beyond similarity. Consider
 the following scenario. A programmer is implementing a Java method for
-file decompression; this method gets as input the path to a zip file
-unpacks all files within the zip into a target directory, as shown in 
-Listing~\ref{lst:mot-query}. This piece of code is sufficient for 
+file decompression. A code search engine may recommend a code example as as shown in 
+Listing~\ref{lst:mot-query} in Figure~\ref{fig:example}, which takes the path to a zip file as input and
+unpacks all files within the zip into a target directory.  This piece of code is sufficient for 
 a simple program task of unpacking a zip file. However, in practice, the programmer 
 may undertake a more complex programming task where unzipping a file is a small,
 integral part. Therefore, the programmer may also want to know what else may be
-related to this functionality. %, in case they will also need that in the future. 
-The programmer may also want to have a comprehensive understanding of the collection of related
-functions for zip file manipulation, in general. If an additional
-functionality often co-occurs with unzipping, the programmer may want to add it
-to her own project as needed. Listing \ref{lst:mot-related} shows an example of this kind of additional 
+related to this functionality. 
+%The programmer may also want to have a comprehensive understanding of the collection of related
+%functions for zip file manipulation, in general.
+ If an additional functionality often co-occurs with unzipping, the programmer may want to add it
+to her own project as needed. 
+For instance, Listing \ref{lst:mot-related} shows an example of this kind of additional 
 functionalities---a method that zips a list of files from a folder into the target zip file. Unzipping
 and zipping are two kinds of file manipulation in the opposite direction. 
-Though these two functions work independently, they are often implemented together in a code base to facilitate
-possible needs from any direction. We consider the zip method and the unzip method {\em related} to each other, or {\em complementary code fragment}, to be more specifically.
+Though these two functions work independently, they are often implemented together in a code base to complement each other. We consider the zip method and the unzip method {\em related} to each other, or {\em complementary code fragment}, to be more specifically.
 
 \input{motivating}
 % code search and code completion
-
-Code-to-code search engines could potentially be used to retrieve relevant code examples
-to a given code query~\cite{kim2018Facoy, krugle, searchcode}. 
-However, these techniques aim at finding syntactically or semantically 
-similar code fragments only, without considering about auxiliary or complementary functionality. 
+ 
+Code-to-code search engines could be leveraged to identify related code given a code 
+fragement of interest~\cite{kim2018Facoy, krugle, searchcode}. 
+However, these techniques find syntactically or semantically similar code fragments 
+only, without considering about auxiliary or complementary functionality. 
 For instance, given an unzip function, they cannot find a complementary zip function, since neither
-the implementation nor the functionality of these two operations are similar. However, as discussed earlier,
+the implementation nor the functionality of these two operations are similar. However, 
 such complementary methods often co-occur in the same source file or the same code base, which serves as 
 an interesting property to exploit for recommending relevant code examples.
 
-Pattern-based code completion tools~\cite{nguyen2009groum,
-  nguyen2012grapacc} also recommend completing code for a given code
-query. They do so by mining common API usage patterns from a large
-code corpus. For a given partial snippet as query, if it matches a
-prefix of a mined pattern, the tool recommends the rest of the pattern
-for completion. Again, such tools only work for the mined patterns;
-that is, they do not recommend code outside the mined patterns.
+%Pattern-based code completion tools~\cite{nguyen2009groum,
+%  nguyen2012grapacc} also recommend completing code for a given code
+%query. They do so by mining common API usage patterns from a large
+%code corpus. For a given partial snippet as query, if it matches a
+%prefix of a mined pattern, the tool recommends the rest of the pattern
+%for completion. Again, such tools only work for the mined patterns;
+%that is, they do not recommend code outside the mined patterns.
 
-For both code search engines and pattern-based code completion tools,
-the retrieved code snippets may have extra lines of code with more
-functionality, but they are not designed to search for commonly used
-additional code.
+%For both code search engines and pattern-based code completion tools,
+%the retrieved code snippets may have extra lines of code with more
+%functionality, but they are not designed to search for commonly used
+%additional code.
 
-The goal of our work is to explore the search needs shown in Listings
-\ref{lst:mot-query} and \ref{lst:mot-related}. In this paper, we first
-describe {\tool}, an approach for retrieving common co-occurring code fragments. 
-Given a code snippet as input query and a large corpus of code containing
-millions of code fragments, {\tool} returns a set of code
-fragments such that:
-\begin{itemize}
-	\item the code fragments co-occur with similar counterparts of the input query.
-	\item the code fragments are ranked by their commonality.
-\end{itemize}
+Currently, there is limited understanding about what other kinds of relevant code beyond similar code
+may exist in practice and thus should be recommended modern code search engines. 
+In this work, based on the observation that relevant code often co-locate in the same file, we first manually 
+inspected commonly co-occuring code fragements among similar code.  Using code snippets from Stack Overflow
+as code queries, we identified similar code (i.e., code clones) in a large corpus of  50K GitHub projects with 
+at least five stars using a clone detection technique called SourcererCC~\cite{sajnani2016sourcerercc}. 
+As a result, we obtained 21K groups of similar code in GitHub. We manually inspected a random sample of 50 common, co-occurring code fragments and examined their relevancy to the original query. 
+76\% of those common, co-occuring code fragments represented relevant functionality, 
+which should be included in code search results. 
+Furthermore, we identified three major types of relevant co-occurring code---{\em complementary}, {\em supplementary}, and {\em alternative} functions.
+%The goal of our work is to explore the search needs shown in Listings
+%\ref{lst:mot-query} and \ref{lst:mot-related}. In this paper, we first
+%describe {\tool}, an approach for retrieving common co-occurring code fragments. 
+%Given a code snippet as input query and a large corpus of code containing
+%millions of code fragments, {\tool} returns a set of code
+%fragments such that:
+%\begin{itemize}
+%	\item the code fragments co-occur with similar counterparts of the input query.
+%	\item the code fragments are ranked by their commonality.
+%\end{itemize}
 
 
-For the time being, we focus on method-level code fragments written in
-Java. Both the query snippet and the common co-occurring code
-fragments are Java methods. {\tool} works by first tokenizing the
-query and all methods in the code corpus. It then uses token
-similarity to detect similar counterparts to the query in the code
-corpus. We delegate this process to a clone detection tool,
-SourcererCC~\cite{sajnani2016sourcerercc}. Finally, {\tool} recognizes
-other methods which co-occur with these similar counterparts as
-candidate related methods.
+%For the time being, we focus on method-level code fragments written in
+%Java. Both the query snippet and the common co-occurring code
+%fragments are Java methods. {\tool} works by first tokenizing the
+%query and all methods in the code corpus. It then uses token
+%similarity to detect similar counterparts to the query in the code
+%corpus. We delegate this process to a clone detection tool,
+%SourcererCC~\cite{sajnani2016sourcerercc}. Finally, {\tool} recognizes
+%other methods which co-occur with these similar counterparts as
+%candidate related methods.
 
 % advantages of CodeAid
-{\tool} has the following properties:
-\begin{itemize}
-	\item It retrieves functionality groups, which the user may want to implement together with the input query.
-	\item It has a clustering algorithm on top of co-occurrence to provide ranking.
-	\item It is not restricted to any programming language. The Java parser is only used to chunk the file into methods, it can be replaced by the parser from any languages as needed.
-	\item It has flexible granularity level. We can chunk the files into blocks of any size. All similarity comparison processes are token-based, which means as long as we have the token list representing the block, it does not matter what size the block is.
-	\item It is fast enough to be used in real time. The most
-          time-consuming part is similar code detection. However,
-          generating the indexes is a one-time task and can be done
-          before any query is processed.	
-\end{itemize}
+ To further demonstrate this idea, we implement a Chrome extension called {\tool}, which recommends relevant but non-similar code when programmers browse code examples in Stack Overflow. Given a SO example, {\tool} automatically detects similar code fragments in GitHub and retrieves common code that co-occurs with these fragments. {\tool} also incorporates a clustering algorithm on top of co-occurrence to provide ranking. Though {\tool} currently supports Java, it is not restricted to any programming languages. The Java parser is only used to tokenize code fragments for clone detection and can be substituted with any off-the-shelf parsers of other languages.
+ 
+% {\tool} has the following properties that differentiates it from traditional similarity based code search engines:
+%\begin{itemize}
+%	\item It retrieves functionality groups, which the user may want to implement together with the input query.
+%	\item It has a clustering algorithm on top of co-occurrence to provide ranking.
+%	\item It is not restricted to any programming language. The Java parser is only used to chunk the file into methods, it can be replaced by the parser from any languages as needed.
+%	\item It has flexible granularity level. We can chunk the files into blocks of any size. All similarity comparison processes are token-based, which means as long as we have the token list representing the block, it does not matter what size the block is.
+%	\item It is fast enough to be used in real time. The most
+%          time-consuming part is similar code detection. However,
+%          generating the indexes is a one-time task and can be done
+%          before any query is processed.	
+%\end{itemize}
 
-We apply our approach on two data sets: (1) a query dataset
-consisting of 21,207 Java code snippets collected from Stack Overflow
-(SO), and (2) a large Java code base consisting of 50,826 projects which 
-have at least five starts collected from GitHub, with over 5.8M distinct 
-Java files. We then run each query in the query dataset through {\tool} 
-and collect the common co-occurring fragments coming from the code base. 
-We manually inspected a random sample of 50 commonly co-occurring code fragments and examined their relevancy to the original query. 
-We found 76\% of them represent relevant functionality that should be included in code search results.
-Furthermore, we identified three major types of relevant co-occurring code---{\em complementary}, {\em supplementary}, and {\em alternative} functions.
-We build a Chrome extension for Stack Overflow to help with the qualitative evaluation and also to provide one application of recommending relative code beyond similarity.
+%We apply our approach on two data sets: (1) a query dataset
+%consisting of 21,207 Java code snippets collected from Stack Overflow
+%(SO), and (2) a large Java code base consisting of 50,826 projects which 
+%have at least five starts collected from GitHub, with over 5.8M distinct 
+%Java files. We then run each query in the query dataset through {\tool} 
+%and collect the common co-occurring fragments coming from the code base. 
+%We manually inspected a random sample of 50 commonly co-occurring code fragments and examined their relevancy to the original query. 
+%We found 76\% of them represent relevant functionality that should be included in code search results.
+%Furthermore, we identified three major types of relevant co-occurring code---{\em complementary}, {\em supplementary}, and {\em alternative} functions.
+%We build a Chrome extension for Stack Overflow to help with the qualitative evaluation and also to provide one application of recommending relative code beyond similarity.
+
+\todo{summarize the contributions}
+In summary, this paper makes the following contribution:
+\begin{itemize}
+\item 
+\end{itemize}
 
 The rest of the paper is organized as follows: Section
 \ref{sec:approach} describes the approach {\tool} for generating
