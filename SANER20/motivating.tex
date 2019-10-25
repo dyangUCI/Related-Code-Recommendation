@@ -1,19 +1,15 @@
 \begin{figure*}[!t]
 \begin{minipage}[t]{0.5\linewidth}
-\begin{lstlisting}[style=MyJavaSmallStyle, caption={Query code\todo{Simply listing 1 to a similar length as listing 2}}, label={lst:mot-query}]
+\begin{lstlisting}[style=MyJavaSmallStyle, caption={Query code: unpacking a zip file}, label={lst:mot-query}]
 public static boolean unpackZip(String path, String zipname, String targetDirectory) {
-	InputStream is;
-	ZipInputStream zis;
 	try {
-		String filename;
-		is = new FileInputStream(path + zipname);
-		zis = new ZipInputStream(new BufferedInputStream(is));
-		ZipEntry ze;
+		InputStream is = new FileInputStream(path + zipname);
+		ZipInputStream zis = new ZipInputStream(new BufferedInputStream(is));
 		byte[] buffer = new byte[1024];
 		int count;
 
-		while ((ze = zis.getNextEntry()) != null) {
-			filename = ze.getName();
+		while ((ZipEntry ze = zis.getNextEntry()) != null) {
+			String filename = ze.getName();
 
 			if (ze.isDirectory()) {
 				File fmd = new File(targetDirectory + filename);
@@ -30,20 +26,18 @@ public static boolean unpackZip(String path, String zipname, String targetDirect
 			fout.close();
 			zis.closeEntry();
 		}
-
 		zis.close();
 	} catch (IOException e) {
 		e.printStackTrace();
 		return false;
 	}
-
 	return true;
 }
 \end{lstlisting}
 \end{minipage}
 %
 \begin{minipage}[t]{0.5\linewidth}
-\begin{lstlisting}[style=MyJavaSmallStyle, caption={Recommended related code}, label={lst:mot-related}]
+\begin{lstlisting}[style=MyJavaSmallStyle, caption={Recommended related code: zipping a file}, label={lst:mot-related}]
 public static void zip(String baseFolder, List<File> files, String zipFile) {
 	try  {
 		BufferedInputStream origin = null;
@@ -64,12 +58,10 @@ public static void zip(String baseFolder, List<File> files, String zipFile) {
 			}
 			origin.close();
 		}
-
 		out.close();
 	} catch(Exception e) {
 		e.printStackTrace();
 	}
-
 }
 \end{lstlisting}
 \end{minipage}
