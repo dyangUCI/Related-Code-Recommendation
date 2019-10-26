@@ -34,7 +34,7 @@ Though these two functions work independently, they are often implemented togeth
 % code search and code completion
  
 Code-to-code search engines could be leveraged to identify related code given a code 
-fragement of interest~\cite{kim2018Facoy, krugle, searchcode}. 
+fragment of interest~\cite{kim2018Facoy, krugle, searchcode}. 
 However, these techniques find syntactically or semantically similar code fragments 
 only, without considering about auxiliary or complementary functionality. 
 For instance, given an unzip function, they cannot find a complementary zip function, since neither
@@ -67,7 +67,7 @@ and identify common code that are shared around mutiple clones.
 Using code snippets from Stack Overflow
 as code queries, we applied {\tool} to identify relevant code of these code queries in a large corpus of  50K GitHub projects with at least five stars. 
 As a result, we obtained 21K groups of similar code in GitHub. We manually inspected a random sample of 50 common, co-occurring code fragments and examined their relevancy to the original query. 
-76\% of those common, co-occuring code fragments represented relevant functionality, 
+74\% of those common, co-occurring code fragments represented relevant functionality, 
 which should be included in code search results. 
 Furthermore, we identified three major types of relevant co-occurring code---{\em complementary}, {\em supplementary}, and {\em alternative} functions. These findings show that it is beneficial to recommend common, co-occurring code of a given code query to achieve more complete functionalities, instead of just recommending similar code. 
 
@@ -126,8 +126,11 @@ In summary, this paper makes the following contribution:
 \item We present a new code search method that recommends common, co-occuring code of a given code query, rather than only recommending similar code.
 \item We empirically show the prevalence of common, co-occurring code by quantifying the commonality of sorrounding code of GitHub clones. We also find that the majority of such co-occurring code fragments represent meanful functionality such as complementary, supplementary, or alternative functions, which should be recommended by modern code search engines.
 \item We develop a Chrome extension to demonstrate the applicability of this code search method in the context of opportunitistic programming.
+%\item It retrieves a large dataset of commonly co-occurring code.
+%\item It provides a in-depth relevance analysis between the commonly co-occurring code with its original query. These code proved to be related and code should be considered for recommendation along with the similar ones.
+%\item It implements a chrome extension as a tool for recommending related code in practice.
 \end{itemize}
 
 The rest of the paper is organized as follows: Section
-\ref{sec:approach} describes the approach {\tool} for generating
-common co-occurring methods. Section \ref{sec:eval} presents the manual analysis result of code by {\tool} in terms of code relevance. We also compare {\tool} with existing code search engines in this section. \ref{sec:chrome} illustrates the instantiation of {\tool} as a chrome extension as well as a use scenario in a web browser. Section \ref{sec:related} describes and Section \ref{sec:conclude} concludes the paper.
+\ref{sec:approach} describes the approach for generating
+common co-occurring methods, with ranking. Section \ref{sec:eval} presents the manual analysis result of common co-occurring code in terms of its relevance to the original query. We also explore whether recommended code from  existing search engines can provide same relevance. \ref{sec:chrome} illustrates the instantiation of {\tool} as a chrome extension as well as a use scenario in a web browser. Section \ref{sec:related} describes and Section \ref{sec:conclude} concludes the paper.

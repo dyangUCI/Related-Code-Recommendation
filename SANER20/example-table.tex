@@ -12,7 +12,7 @@
 \setlength{\tabcolsep}{0.01\textwidth}
 \begin{tabular}{@{}p{0.49\textwidth}p{0.49\textwidth}@{}}
 \toprule
-Query Code Snippet & Recommended Related Code \\
+Query Code Snippet & Related Code \\
 \midrule
 
 
@@ -26,9 +26,7 @@ throws GeneralSecurityException {
 	IvParameterSpec ivSpec = new IvParameterSpec(iv);
 	cipher.init(Cipher.ENCRYPT_MODE, key, ivSpec);
 	byte[] cipherText = cipher.doFinal(message);
-
 	log(""cipherText"", cipherText);
-
 	return cipherText;
 }
 \end{lstlisting}
@@ -42,9 +40,7 @@ throws GeneralSecurityException {
 	IvParameterSpec ivSpec = new IvParameterSpec(iv);
 	cipher.init(Cipher.DECRYPT_MODE, key, ivSpec);
 	byte[] decryptedBytes = cipher.doFinal(decodedCipherText);
-
 	log(""decryptedBytes"", decryptedBytes);
-
 	return decryptedBytes;
 }
 \end{lstlisting}
@@ -54,7 +50,7 @@ throws GeneralSecurityException {
 	\emph{Example B: Complementary method}
 	\begin{itemize}
 		\item The query snippet implements {\ttt encrypt} functionality for an byte array.
-		\item The recommended related method decrypts a decoded byte array. 
+		\item The related method decrypts a decoded byte array. 
 	\end{itemize}
 }
 
@@ -63,7 +59,6 @@ throws GeneralSecurityException {
 \bottomrule
 
 \begin{lstlisting}
-@Override
 public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.main);
@@ -82,12 +77,11 @@ public void onCreate(Bundle savedInstanceState) {
 	else {
 		mRotation = window.getDefaultDisplay().getRotation();
 	}
-	}
+}
 \end{lstlisting}
 
 &
 \begin{lstlisting}
-@Override
 protected void onPause() {
 	mgr.unregisterListener(this, accel);
 	mgr.unregisterListener(this, compass);
@@ -101,7 +95,7 @@ protected void onPause() {
 	\emph{Example C: Complementary method}
 	\begin{itemize}
 		\item The query snippet implements {\ttt onCreate} functionality for an {\ttt Android} app activity.
-		\item The recommended related method implements {\ttt onPause} which does not have direct function call with the query snippet, but adds extra functionality to the activity. 
+		\item The related method implements {\ttt onPause} which does not have direct function call with the query snippet, but adds extra functionality to the activity. 
 	\end{itemize}
 }
 
@@ -118,7 +112,7 @@ protected void onPause() {
 	\setlength{\tabcolsep}{0.01\textwidth}
 	\begin{tabular}{@{}p{0.49\textwidth}p{0.49\textwidth}@{}}
 		\toprule
-		Query Code Snippet & Recommended Related Code \\
+		Query Code Snippet & Related Code \\
 		\midrule
 		
 
@@ -135,7 +129,6 @@ private void queueJob(final String url, final ImageView imageView,final Drawable
 						imageView.setImageDrawable((Drawable) msg.obj);
 					} else {
 					imageView.setImageDrawable(placeholder);
-					//Log.d(null, "fail " + url);
 					}
 				}
 			}
@@ -150,8 +143,6 @@ private void queueJob(final String url, final ImageView imageView,final Drawable
 			{
 				Message message = Message.obtain();
 				message.obj = bmp;
-				//Log.d(null, "Item downloaded: " + url);
-
 				handler.sendMessage(message);
 			}
 		}
@@ -182,7 +173,7 @@ public void loadDrawable(final String url, final ImageView imageView) {
 \explanation{
 	\emph{Example D: Supplementary method}
 	\begin{itemize}
-		\item The recommended related method calls the query snippet within its method body. It is a higher-level funtionality to the query.
+		\item The related method calls the query snippet within its method body. It is a higher-level funtionality to the query.
 	\end{itemize}
 }
 
@@ -216,7 +207,7 @@ protected LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
 \explanation{
 	\emph{Example E: Supplementary method}
 	\begin{itemize}
-		\item The recommended related code generates the {\ttt Layout parameters}, it will be traced by {\ttt getLayoutParam} function, which will further be called inside the query method {\ttt onLayout}. There is a dependency chain between the query and the related code.
+		\item The related code generates the {\ttt Layout parameters}, it will be traced by {\ttt getLayoutParam} function, which will further be called inside the query method {\ttt onLayout}. There is a dependency chain between the query and the related code.
 	\end{itemize}
 }
 
@@ -233,7 +224,7 @@ protected LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
 	\setlength{\tabcolsep}{0.01\textwidth}
 	\begin{tabular}{@{}p{0.49\textwidth}p{0.49\textwidth}@{}}
 		\toprule
-		Query Code Snippet & Recommended Related Code \\
+		Query Code Snippet & Related Code \\
 		\midrule
 		
 
@@ -256,17 +247,14 @@ public static <K, V extends Comparable<? super V>> SortedSet<Map.Entry<K, V>> 		
 public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue( Map<K, V> map ) {
 	List<Map.Entry<K, V>> list =
 		new LinkedList<Map.Entry<K, V>>( map.entrySet() );
-	Collections.sort( list, new Comparator<Map.Entry<K, V>>()
-	{
-		public int compare( Map.Entry<K, V> o1, Map.Entry<K, V> o2 )
-		{
+	Collections.sort( list, new Comparator<Map.Entry<K, V>>(){
+		public int compare( Map.Entry<K, V> o1, Map.Entry<K, V> o2 ){
 			return (o1.getValue()).compareTo( o2.getValue() );
 		}
 	} );
 
 	Map<K, V> result = new LinkedHashMap<K, V>();
-	for (Map.Entry<K, V> entry : list)
-	{
+	for (Map.Entry<K, V> entry : list){
 		result.put( entry.getKey(), entry.getValue() );
 	}
 	return result;
@@ -277,7 +265,7 @@ public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue( Map<K,
 	\emph{Example F: Different implementation}
 	\begin{itemize}
 		\item The question title of the SO post is: Sort the values in HashMap.
-		\item The query snippet from SO uses {\ttt SortedSet} to store the map entries, while the recommended code provides an alternative, using {\ttt LinkedList}, and show how to iterate the map.
+		\item The query snippet from SO uses {\ttt SortedSet} to store the map entries, while the related code provides an alternative, using {\ttt LinkedList}, and show how to iterate the map.
 	\end{itemize}
 }
 
