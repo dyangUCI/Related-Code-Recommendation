@@ -23,7 +23,7 @@ Precision@k = \frac{1}{N}\sum_{i=1}^{N}\tfrac{\left | relevant_{i,k} \right |}{k
 \end{equation}
 where $\left | relevant_{i,k} \right |$ represents the number of positive related results in the top $k$ common co-occurring results for query $i$, $N$ is the number queries we evaluate, which is $50$. $k$ is the number of top results we examine, here we use $k=1$ and $k=3$.
 
-We achieve 80\% and 74.6\% for $Precision@1$ and $Precision@3$ respectively. That is to say, for the 50 most common co-occurring results, 40 of them are manually examined as related, for the 150 top 3 results, 112 of them are related.
+We achieve 80\% and 74.6\% for $Precision@1$ and $Precision@3$ respectively. That is to say, for the 50 most commonly co-occurring results, 40 of them are manually examined as related, for the 150 top 3 results, 112 of them are related.
 
 We find the following types of relevance in our sample set:
 \begin{itemize}
@@ -80,7 +80,7 @@ public static Drawable getDrawableFromCache(String url) {
 \end{lstlisting}
 
 
-\subsubsection{Different implementation} This category represents those related methods that have similar functionality to the query code. The result provides an alternative, or a more detailed or extended implementation for the functionality. As shown in Table ~\ref{tab:diff-examples}, both of the methods implement sorting values in a {\ttt Map}, the query store the map entries in a {\ttt SortedSet}, while the related code uses {\ttt LinkedList}, and shows how to iterate a {\ttt Map}. For the {\ttt encrypt} function in Table ~\ref{tab:compl-examples}, the related code also provide an alternative implementation with {\ttt String} inputs, as shown in Listing ~\ref{lst:encryt}.
+\subsubsection{Different implementation} This category represents those related methods that have similar functionality to the query code. The result provides an alternative, or a more detailed or extended implementation for the functionality. As shown in Table~\ref{tab:diff-examples}, both of the methods implement sorting values in a {\ttt Map}, the query store the map entries in a {\ttt SortedSet}, while the related code uses {\ttt LinkedList}, and shows how to iterate a {\ttt Map}. For the {\ttt encrypt} function in Table~\ref{tab:compl-examples}, the related code also provide an alternative implementation with {\ttt String} inputs, as shown in Listing~\ref{lst:encryt}.
 
 A small number of sampled related methods provide different implementation to the query itself.
 \vspace{2mm}
