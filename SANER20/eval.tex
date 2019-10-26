@@ -37,9 +37,11 @@ We find the following types of relevance in our sample set:
 	\caption{Categorization of related methods}
 	\label{tab:categorization}
 	\begin{center}
-		\begin{tabular}{ c|c|c } 
+	\renewcommand{\arraystretch}{1.2}
+\renewcommand\tabcolsep{3pt}
+		\begin{tabular}{ l|r|r } 
 			\hline
-			Category & Top 1 & Top 3 \\\hline
+			{\sf Category} & {\sf Top 1} & {\sf Top 3} \\\hline
 			Complementary method &  20 (40\%) & 55 (37\%)\\\hline 
 			Supplementary method &  18 (36\%) & 53 (35\%) \\ \hline
 			Different implementation &  2 (4\%) & 4 (3\%)\\ \hline
@@ -64,7 +66,7 @@ There is another related method being recommended together with {\ttt loadDrawab
 
 More than one third of the sampled results are supplementary methods.
 
-\begin{lstlisting}[caption={Recommended code \#2}, label={lst:part2}]
+\begin{lstlisting}[style=MyJavaSmallStyle, caption={Recommended code \#2}, label={lst:part2}]
 public static Drawable getDrawableFromCache(String url) {
 	if (DrawableManager.cache.containsKey(url)) {
 		return DrawableManager.cache.get(url);
@@ -78,7 +80,7 @@ public static Drawable getDrawableFromCache(String url) {
 
 A small number of sampled methods provide different implementation to the query itself.
 
-\begin{lstlisting}[caption={different implementation for \texttt{encrypt}}, label={lst:encryt}]
+\begin{lstlisting}[style=MyJavaSmallStyle, caption={different implementation for \texttt{encrypt}}, label={lst:encryt}]
 public static String encrypt(final String password, String message) throws GeneralSecurityException {
 	try {
 		final SecretKeySpec key = generateKey(password);
