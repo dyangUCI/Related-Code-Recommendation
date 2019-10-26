@@ -37,10 +37,8 @@ public static void zip(String baseFolder, List<File> files, String zipFile) {
 	try  {
 		BufferedInputStream origin = null;
 		FileOutputStream dest = new FileOutputStream(zipFile);
-
 		ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
 		byte data[] = new byte[BUFFER];
-
 		for (File file : files) {
 			FileInputStream fi = new FileInputStream(file);
 			origin = new BufferedInputStream(fi, BUFFER);

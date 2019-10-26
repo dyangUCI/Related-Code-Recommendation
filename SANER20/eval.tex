@@ -67,9 +67,8 @@ Less than half of the sampled related results are supplementary methods.
 
 \lstset{
 	frame=single,
-	basicstyle=\tiny\ttfamily,
 }
-
+\vspace{2mm}
 \begin{lstlisting}[style=MyJavaSmallStyle, caption={Related method \#2}, label={lst:part2}]
 public static Drawable getDrawableFromCache(String url) {
 	if (DrawableManager.cache.containsKey(url)) {
@@ -79,12 +78,12 @@ public static Drawable getDrawableFromCache(String url) {
 	return null;
 }	
 \end{lstlisting}
-
+\vspace{2mm}
 
 \subsubsection{Different implementation} This category represents those related methods that have similar functionality to the query code. The result provides an alternative, or a more detailed or extended implementation for the functionality. As shown in Table~\ref{tab:diff-examples}, both of the methods implement sorting values in a {\ttt Map}, the query store the map entries in a {\ttt SortedSet}, while the related code uses {\ttt LinkedList}, and shows how to iterate a {\ttt Map}. For the {\ttt encrypt} function in Table~\ref{tab:compl-examples}, the related code also provide an alternative implementation with {\ttt String} inputs, as shown in Listing~\ref{lst:encryt}.
 
 A small number of sampled related methods provide different implementation to the query itself.
-\vspace{2mm}
+\newpage
 \begin{lstlisting}[style=MyJavaSmallStyle, caption={different implementation for \texttt{encrypt}}, label={lst:encryt}]
 public static String encrypt(final String password, String message) throws GeneralSecurityException {
 	try {
