@@ -19,51 +19,37 @@
 
 
 \begin{lstlisting}
-public int readFramesChanel(short[] sampleBuffer, int offset, int numFramesToRead,int channel) throws IOException, WavFileException
-{
+public int readFramesChanel(short[] sampleBuffer, int offset, int numFramesToRead,int channel) throws IOException, WavFileException{
 	if (ioState != IOState.READING) throw new IOException("Cannot read from WavFile instance");
-
-	for (int f=0 ; f<numFramesToRead ; f++)
-	{
+	for (int f=0 ; f<numFramesToRead ; f++){
 		if (frameCounter == numFrames) return f;
-
-		for (int c=0 ; c<numChannels ; c++)
-		{
-			if(channel==c)
-			{
+		for (int c=0 ; c<numChannels ; c++){
+			if(channel==c){
 				sampleBuffer[offset] = (short) readSample();
 				offset ++;
 			}
 			else
 				readSample();
 		}
-
 		frameCounter ++;
 	}
-
 	return numFramesToRead;
 }
 \end{lstlisting}
 		
 		&
 \begin{lstlisting}
-public int writeFrames(int[] sampleBuffer, final int offSetIn, int numFramesToWrite) throws IOException
-{
+public int writeFrames(int[] sampleBuffer, final int offSetIn, int numFramesToWrite) throws IOException{
 	if (this.ioState != IOState.WRITING) throw new IOException("Cannot write to WavFile instance"); //$NON-NLS-1$
 	int offSet = offSetIn;
-	for (int f = 0; f < numFramesToWrite; f++)
-	{
+	for (int f = 0; f < numFramesToWrite; f++){
 		if (this.frameCounter == this.numFrames) return f;
-
-		for (int c = 0; c < this.numChannels; c++)
-		{
+		for (int c = 0; c < this.numChannels; c++){
 			writeSample(sampleBuffer[offSet]);
 			offSet++;
 		}
-
 		this.frameCounter++;
 	}
-
 	return numFramesToWrite;
 }
 		
@@ -75,8 +61,8 @@ public int writeFrames(int[] sampleBuffer, final int offSetIn, int numFramesToWr
 \end{table*}
 		
 
-In this experiment we compare the recommendation results of \tool\ with those from code search engines. We choose Google search engine since its the most popular destination when people look for programming assistance. We also compare to {\ttt FaCoY}~\cite{kim2018Facoy}, a code-to-code search engine which proved to have state-of-art precision. It uses SO snippets as its query base and indexes GitHub files as search space. {\ttt searchcode}~\cite{searchcode} and {\ttt Krugle}~\cite{krugle} are another two online code-to-code search engines. We only compare with {\ttt FaCoY} because it beats {\ttt searchcode} and {\ttt Krugle} in the total number of outputs and precision of outputs when using SO snippets as queries~\cite{kim2018Facoy}. 
-We look for whether the search engines can also retrieve top 1 related code fragments recommended by \tool\ in their top 10 search results. 
+In this experiment we compare the related results of our approach with those from code search engines. We choose Google search engine since its the most popular destination when people look for programming assistance. We also compare to {\ttt FaCoY}~\cite{kim2018Facoy}, a code-to-code search engine which proved to have state-of-art precision. It uses SO snippets as its query base and indexes GitHub files as search space. {\ttt searchcode}~\cite{searchcode} and {\ttt Krugle}~\cite{krugle} are another two online code-to-code search engines. We only compare with {\ttt FaCoY} because it beats {\ttt searchcode} and {\ttt Krugle} in the total number of outputs and precision of outputs when using SO snippets as queries~\cite{kim2018Facoy}. 
+We look for whether the search engines can also retrieve top 1 related code fragments recommended by our approach in their top 10 search results. 
 
 For one out of the ten queries, {\ttt FaCoY} can return the related code recommended by \tool\ in its top 10 search results. This results from the related code being very similar to the query, as shown in Table \ref{tab:facoy-example}. For the rest of nine queries, the related code is not similar to the query, so it cannot be retrieved by {\ttt FaCoY}.
 
