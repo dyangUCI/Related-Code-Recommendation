@@ -145,7 +145,7 @@ Existing search tools only recommend other code locations that are syntactically
 There is also limited understanding about what other kinds of code relevancy may exist in practice beyond code similarity and thus should be incorporated into modern code search engines. 
 To bridge the gap, this paper presents an in-depth analysis of other code fragments that co-occur with similar code that a regular search engine typically recommends and their relevance to the given code query.
 
-To this end, we first constructed a large data set of 21K groups of similar code written in Java, using Stack Overflow code snippets as queries and identifying their counterparts in GitHub via clone detection. For more than half of these SO code snippets, their GitHub counterparts share common code that co-occurs in the same Java file yet not similar to the original queries. We manually inspected a random sample of 50 commonly co-occurring code fragments and found 76\% of them represent relevant functionality that should be included in code search results. Furthermore, we identified three major types of relevant co-occurring code---{\em complementary}, {\em supplementary}, and {\em alternative} functions. This study result calls for a new search engine that accounts for such code relevance beyond code similarity.  %the prevalence and usefulness of relevant co-occuring functions. At the end, we implemented a code search tool that incorporates such relevant functions as a possible tool design.
+To this end, we first constructed a large data set of 21K groups of similar code written in Java, using Stack Overflow code snippets as queries and identifying their counterparts in GitHub via clone detection. For more than half of these SO code snippets, their GitHub counterparts share common code that co-occurs in the same Java file yet not similar to the original queries. We manually inspected a random sample of 50 commonly co-occurring code fragments and found 74\% of them represent relevant functionality that should be included in code search results. Furthermore, we identified three major types of relevant co-occurring code---{\em complementary}, {\em supplementary}, and {\em alternative} functions. This study result calls for a new search engine that accounts for such code relevance beyond code similarity.  %the prevalence and usefulness of relevant co-occuring functions. At the end, we implemented a code search tool that incorporates such relevant functions as a possible tool design.
 
 %Recommending related code of a given query can help programmers detect
 %situations that they have overlooked, or that they did not know how to solve.
@@ -188,24 +188,20 @@ code search, related code, mining software repositories
 \input{related}
 
 
+
+\section{Threat to Validity}
+One limitation of our approach is that the recommendation power of our approach strongly correlates with the similarity behavior of the dataset. To retrieve related code fragments, our approach requires the query code to have similar counterparts in the search query corpus; it also asks for similar method pairs within search query corpus itself. 
+
+Our approach also inherits the limitations from the clone detector, SourcereCC. It depends on the clone detector to find accurate similar code. However, our approach is not bound with any particular clone detector. With its generality, SourcererCC can be replaced by other code-to-code search engines. 
+
 \section{Conclusion}
 \label{sec:conclude}
 
-We have presented a technique that finds code fragments related to the code query other than the similar ones. The
-information need that underlies the design of {\tool} is different
-from that of traditional code search engines: rather than retrieving
-similar code, it retrieves code within the functionality family of the
-code query. This broader context allows programmers to be aware of
-related code that may be useful when developing their own
-functions. {\tool} works by analyzing co-occurrences of code fragments
-in very large code bases, such as GitHub projects, and then clustering
-those potential matches for a given code query.
+Code-to-code search engines focuses on retrieving syntactically or semantically similar code fragments to a given query, without considering auxiliary or complementary code that may also be related to the query. The purpose of this work is to explore the existence of other kinds of related code beyond similar code, and discuss the usefulness of these related code for recommendation in practice.
 
-We applied our approach to a large dataset of code queries collected
-from Stack Overflow snippets, and a very large code base of Java
-projects collected from GitHub.  We manually inspected a random sample of 50 commonly co-occurring code fragments and found 76\% of them represent relevant functionality that should be included in code search results.
+Co-occurring code is an interesting start point of exploring related code. We built an automated approach to identify, cluster, and rank common, co-occurring code. From detailed manual evaluation, we found 74\% of our sampled code show valid relevancy to the query, and this relevancy can be categorized into three types--{\em complementary}, {\em supplementary}, and {\em alternative} functionality. Our findings shows the benefit of recommending common-occurring code, beyond similar code. We also implemented a Chrome extension that demonstrates an application of our approach in practice. We experimented to show that other search engines cannot fulfill recommending related code fragments as we proposed. We are planning to perform more user study on our tool in near future.
 
-One limitation of {\tool} is that the recommendation power of {\tool} strongly correlates with the similarity behavior of the dataset. To retrieve related code fragments, {\tool} requires the query code to have similar counterparts in the search query corpus; it also asks for similar method pairs within search query corpus itself. 
+
 
 %For future work, we may try different user-defined query code base and search code corpus to further evaluate {\tool}. For example the search code corpus can be the code base for a company or previous projects from a user. We may import the tool into a Eclipse plugin and help developers during real life programming process. The use scenario will be, when a user is currently writing a code fragment and uses it as query to search {\tool} plug-in, we will return the ranked list of related code from the company's code base or the user's own projects.
 
