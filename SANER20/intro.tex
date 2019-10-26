@@ -8,7 +8,7 @@ literature~\cite{bajracharya2009sourcerer,reiss2009semantics,lazzarini2009applyi
 some search code engines have been implemented and are, or were, publicly
 available~\cite{googlesearch, github,codase,krugle,ohloh,searchcode}. Code search engines 
 take some specification as input (e.g., a keyword description, a code fragment, or a test) and 
-recommends pieces of code that match the given specification based on some forms of ``similarity'' measurement.
+recommends pieces of code that match the given specification based on some forms of ``similarity'' measurement. Prior work has shown that by identifying and contrasting similar code, programmers could quickly understand the gist of implementing a function and explore potential variations to write more complete and robust code~\cite{zhang2019analyzing, luan2019aroma}. For instance, by inspecting variations in similar code found in GitHub, programmers are able to identify critical code parts such as safety checks and exception handling logics that are missed in a given code example~\cite{zhang2019analyzing}.
 
 % motivation example
 
@@ -38,9 +38,9 @@ fragement of interest~\cite{kim2018Facoy, krugle, searchcode}.
 However, these techniques find syntactically or semantically similar code fragments 
 only, without considering about auxiliary or complementary functionality. 
 For instance, given an unzip function, they cannot find a complementary zip function, since neither
-the implementation nor the functionality of these two operations are similar. However, 
-such complementary methods often co-occur in the same source file or the same code base, which serves as 
-an interesting property to exploit for recommending relevant code examples.
+the implementation nor the functionality of these two operations are similar. 
+Currently,  there is also limited understanding about what other kinds of relevant code beyond similar code
+may exist in practice and thus should be recommended modern code search engines. 
 
 %Pattern-based code completion tools~\cite{nguyen2009groum,
 %  nguyen2012grapacc} also recommend completing code for a given code
@@ -55,16 +55,25 @@ an interesting property to exploit for recommending relevant code examples.
 %functionality, but they are not designed to search for commonly used
 %additional code.
 
-Currently, there is limited understanding about what other kinds of relevant code beyond similar code
-may exist in practice and thus should be recommended modern code search engines. 
-In this work, based on the observation that relevant code often co-locate in the same file, we first manually 
-inspected commonly co-occuring code fragements among similar code.  Using code snippets from Stack Overflow
-as code queries, we identified similar code (i.e., code clones) in a large corpus of  50K GitHub projects with 
-at least five stars using a clone detection technique called SourcererCC~\cite{sajnani2016sourcerercc}. 
+Complementary methods shown in Figure~\ref{fig:example} often co-occur in the same source file or the same code base, which serves as an interesting property to exploit for recommending relevant code examples.
+Manually identifying co-occurring code is tedious and time-consuming, 
+since some co-occurring code may be project-specific and thus not relevant to a given code query. 
+Therefore, we first build an automated approach called {\tool} to identify, cluste, and rank common, 
+co-occurring code given a code query.  
+{\tool} uses a state-of-the-art clone detecor called SourcererCC~\cite{sajnani2016sourcerercc} to identify similar
+counterparts (i.e., clones) in a large code corpus. Then {\tool} contrasts surrounding code of those clones 
+and identify common code that are shared around mutiple clones.
+
+Using code snippets from Stack Overflow
+as code queries, we applied {\tool} to identify relevant code of these code queries in a large corpus of  50K GitHub projects with at least five stars. 
 As a result, we obtained 21K groups of similar code in GitHub. We manually inspected a random sample of 50 common, co-occurring code fragments and examined their relevancy to the original query. 
 76\% of those common, co-occuring code fragments represented relevant functionality, 
 which should be included in code search results. 
-Furthermore, we identified three major types of relevant co-occurring code---{\em complementary}, {\em supplementary}, and {\em alternative} functions.
+Furthermore, we identified three major types of relevant co-occurring code---{\em complementary}, {\em supplementary}, and {\em alternative} functions. These findings show that it is beneficial to recommend common, co-occurring code of a given code query to achieve more complete functionalities, instead of just recommending similar code. 
+
+To further demonstrate this idea, we implement a Chrome extension that recommends relevant but non-similar code when programmers browse code examples in Stack Overflow. It is well known that programmers often search and reuse online examples during modern software development~\cite{brandt2010example, umarji2008archetypal, gallardo2009internet}. Our Chrome extension augments this programming workflow by reminding programmers what other complementary, supplementary, or alternative functions should also be included as they copy and paste code from the Web. 
+%Given a SO example, {\tool} automatically detects similar code fragments in GitHub and retrieves common code that co-occurs with these fragments. {\tool} also incorporates a clustering algorithm on top of co-occurrence to provide ranking. 
+%Though {\tool} currently supports Java, it is not restricted to any programming languages. The Java parser is only used to tokenize code fragments for clone detection and can be substituted with any off-the-shelf parsers of other languages.
 %The goal of our work is to explore the search needs shown in Listings
 %\ref{lst:mot-query} and \ref{lst:mot-related}. In this paper, we first
 %describe {\tool}, an approach for retrieving common co-occurring code fragments. 
@@ -88,8 +97,6 @@ Furthermore, we identified three major types of relevant co-occurring code---{\e
 %candidate related methods.
 
 % advantages of CodeAid
- To further demonstrate this idea, we implement a Chrome extension called {\tool}, which recommends relevant but non-similar code when programmers browse code examples in Stack Overflow. Given a SO example, {\tool} automatically detects similar code fragments in GitHub and retrieves common code that co-occurs with these fragments. {\tool} also incorporates a clustering algorithm on top of co-occurrence to provide ranking. Though {\tool} currently supports Java, it is not restricted to any programming languages. The Java parser is only used to tokenize code fragments for clone detection and can be substituted with any off-the-shelf parsers of other languages.
- 
 % {\tool} has the following properties that differentiates it from traditional similarity based code search engines:
 %\begin{itemize}
 %	\item It retrieves functionality groups, which the user may want to implement together with the input query.
@@ -113,10 +120,12 @@ Furthermore, we identified three major types of relevant co-occurring code---{\e
 %Furthermore, we identified three major types of relevant co-occurring code---{\em complementary}, {\em supplementary}, and {\em alternative} functions.
 %We build a Chrome extension for Stack Overflow to help with the qualitative evaluation and also to provide one application of recommending relative code beyond similarity.
 
-\todo{summarize the contributions}
+%\todo{summarize the contributions}
 In summary, this paper makes the following contribution:
 \begin{itemize}
-\item 
+\item We present a new code search method that recommends common, co-occuring code of a given code query, rather than only recommending similar code.
+\item We empirically show the prevalence of common, co-occurring code by quantifying the commonality of sorrounding code of GitHub clones. We also find that the majority of such co-occurring code fragments represent meanful functionality such as complementary, supplementary, or alternative functions, which should be recommended by modern code search engines.
+\item We develop a Chrome extension to demonstrate the applicability of this code search method in the context of opportunitistic programming.
 \end{itemize}
 
 The rest of the paper is organized as follows: Section
