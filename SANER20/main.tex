@@ -37,7 +37,7 @@
   escapeinside={*'}{'*},
   tabsize=5,
   emphstyle={\bf},
-  basicstyle=\scriptsize\ttfamily,
+ basicstyle=\tiny\ttfamily,
   keywordstyle=\color{javapurple}\bfseries,
   stringstyle=\color{javared},
   commentstyle=\color{javagreen},
@@ -198,6 +198,7 @@ code search, related code, mining software repositories
 
 
 \section{Threats to Validity}
+\label{sec:threat}
 In terms of internal validity, we only investigate the kinds of code relevancy in common, co-occurring code, based on the observation that relevant code may often co-locate in the same file. Though we indeed find interesting types of relevant code by exploiting this proximity property of code, we may miss other kinds of relevant code that is not in the same file. 
 
 In terms of external validity, this work only analyzes code written in one programming language, Java. Previous studies have shown that JavaScript and Python have more clones than Java and C~\cite{lopes2017dejavu, yang2017stack}. Therefore, we are likely to find more common, co-occurring code for JavaScript and Python. In addition,  we may find other kinds of relevant code in those different languages. For instance, Lopes et al.~find that a large portion of code clones in JavaScript are generated from boilerplate~\cite{lopes2017dejavu}. Hence, we may also find that many common, co-occurring code of a JavaScript code fragment is because of boilerplate code.
