@@ -15,15 +15,15 @@
 \section{Manual analysis and categorization}
 \label{sec:eval}
 \input{example-table}
-We randomly select 50 SO snippets with its commonly co-occurring code fragments from the 11,110 groups, and manually examine whether these code fragments are related to the SO input or not, and categorize why we call the relationship a relevant one.
+We randomly select 50 SO snippets with its common co-occurring code fragments from the 11,110 groups, and manually examine whether these code fragments are related to the SO input or not, and categorize why we call the relationship a relevant one.
 
-We use $Precision@k$ metric to evaluate the commonly co-occurring code  which is defined as follows:
+We use $Precision@k$ metric to evaluate the common co-occurring code  which is defined as follows:
 \begin{equation}
 Precision@k = \frac{1}{N}\sum_{i=1}^{N}\tfrac{\left | relevant_{i,k} \right |}{k}
 \end{equation}
-where $\left | relevant_{i,k} \right |$ represents the number of positive related results in the top $k$ commonly co-occurring results for query $i$, $N$ is the number queries we evaluate, which is $50$. $k$ is the number of top results we examine, here we use $k=1$ and $k=3$.
+where $\left | relevant_{i,k} \right |$ represents the number of positive related results in the top $k$ common co-occurring results for query $i$, $N$ is the number queries we evaluate, which is $50$. $k$ is the number of top results we examine, here we use $k=1$ and $k=3$.
 
-We achieve 80\% and 74.6\% for $Precision@1$ and $Precision@3$ respectively. That is to say, for the 50 top 1 commonly co-occurring results, 40 of them are manually examined as related, for the 150 top 3 results, 112 of them are related.
+We achieve 80\% and 74.6\% for $Precision@1$ and $Precision@3$ respectively. That is to say, for the 50 most common co-occurring results, 40 of them are manually examined as related, for the 150 top 3 results, 112 of them are related.
 
 We find the following types of relevance in our sample set:
 \begin{itemize}
@@ -40,11 +40,10 @@ We find the following types of relevance in our sample set:
 		\begin{tabular}{ c|c|c } 
 			\hline
 			Category & Top 1 & Top 3 \\\hline
-			Complementary method &  20 (40\%) & 55 (37\%)\\\hline 
-			Supplementary method &  18 (36\%) & 53 (35\%) \\ \hline
-			Different implementation &  2 (4\%) & 4 (3\%)\\ \hline
-			Not related & 10 (20\%) & 38 (25\%)\\\hline
-			Total & 50 & 150 \\\hline
+			Complementary method &  20 (50\%) & 55 (49\%)\\\hline 
+			Supplementary method &  18 (45\%) & 53 (47\%) \\ \hline
+			Different implementation &  2 (5\%) & 4 (3\%)\\ \hline
+			Total related methods & 40 & 112 \\\hline
 		\end{tabular}		
 	\end{center}
 
@@ -55,16 +54,20 @@ We find the following types of relevance in our sample set:
 
 Similarly, we find {\ttt decrypt} function for {\ttt encrypt} and {\ttt onPause} function for {\ttt onCreate} in Table \ref{tab:compl-examples}. The two methods in each pair do not have any direct function call association between them, but they complete each other with extra functionality and are often implemented together in real-life scenarios. 
 
-For the 30 most common co-occurring methods, 40\% of them are complementary methods. 37\% of the sampled top 3 commonly co-occurring methods belong to this category.
+For the top related methods, half of them are complementary methods. 37\% of the sampled top 3 related methods belong to this category.
 
 \subsubsection{Supplementary method} The related code serves as a helper function to the query, or vice versa. One may make function call to the other. For example the {\ttt merge} function for {\ttt sort}. {\ttt sort} calls {\ttt merge} as a helper function and cannot achieve functionality without it. 
 
 In our first example in Table \ref{tab:suppl-examples}, our related code {\ttt loadDrawable} calls {\ttt queueJob} inside its method body. 
 There is another related method being recommended together with {\ttt loadDrawable}, which is shown below in Listings \ref{lst:part2}. {\ttt loadDrawable} also makes a function call to {\ttt getDrawableFromCache} inside its method body, The related methods give the user a broader picture of the whole class, point to a higher level of functionality the user may want to implement, and also direct the user to the most-frequently used higher level functionality and its auxiliaries.
 
-More than one third of the sampled results are supplementary methods.
+Less than half of the sampled related results are supplementary methods.
 
-\begin{lstlisting}[caption={Recommended code \#2}, label={lst:part2}]
+\lstset{
+	frame=single,
+}
+\newpage
+\begin{lstlisting}[caption={Related method \#2}, label={lst:part2}]
 public static Drawable getDrawableFromCache(String url) {
 	if (DrawableManager.cache.containsKey(url)) {
 		return DrawableManager.cache.get(url);
@@ -74,9 +77,11 @@ public static Drawable getDrawableFromCache(String url) {
 }	
 \end{lstlisting}
 
+
 \subsubsection{Different implementation} This category represents those related methods that have similar functionality to the query code. The result provides an alternative, or a more detailed or extended implementation for the functionality. As shown in Table ~\ref{tab:diff-examples}, both of the methods implement sorting values in a {\ttt Map}, the query store the map entries in a {\ttt SortedSet}, while the related code uses {\ttt LinkedList}, and shows how to iterate a {\ttt Map}. For the {\ttt encrypt} function in Table ~\ref{tab:compl-examples}, the related code also provide an alternative implementation with {\ttt String} inputs, as shown in Listing ~\ref{lst:encryt}.
 
-A small number of sampled methods provide different implementation to the query itself.
+A small number of sampled related methods provide different implementation to the query itself.
+
 
 \begin{lstlisting}[caption={different implementation for \texttt{encrypt}}, label={lst:encryt}]
 public static String encrypt(final String password, String message) throws GeneralSecurityException {
@@ -97,6 +102,7 @@ public static String encrypt(final String password, String message) throws Gener
 }
 \end{lstlisting}
 
-From the in-depth manual analysis from this section, we can see that there is a large amount of related code among the commonly co-occurring code, and they are worth to be considered for recommendation besides similar code to the query.
+
+From the in-depth manual analysis from this section, we can see that there is a large amount of related code among the common co-occurring code, and they are worth to be considered for recommendation besides similar code to the query.
 
 
