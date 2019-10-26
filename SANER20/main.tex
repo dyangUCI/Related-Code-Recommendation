@@ -189,7 +189,7 @@ code search, related code, mining software repositories
 
 
 \section{Threats to Validity}
-In terms of internal validity, we only investigate the kinds of code relevancy in common, co-occurring code, based on the observation that relevant code may often co-locate in the same file. Though we indeed find interesting types of relevant code by exploiting this proximity property of code, we may miss other kinds of relevant code that is not in the same file. For instance,  
+In terms of internal validity, we only investigate the kinds of code relevancy in common, co-occurring code, based on the observation that relevant code may often co-locate in the same file. Though we indeed find interesting types of relevant code by exploiting this proximity property of code, we may miss other kinds of relevant code that is not in the same file. 
 
 In terms of external validity, this work only analyzes code written in one programming language, Java. Previous studies have shown that JavaScript and Python have more clones than Java and C~\cite{lopes2017dejavu, yang2017stack}. Therefore, we are likely to find more common, co-occurring code for JavaScript and Python. 
 
@@ -201,7 +201,7 @@ In terms of external validity, this work only analyzes code written in one progr
 \section{Conclusion}
 \label{sec:conclude}
 
-Code-to-code search engines focuses on retrieving syntactically or semantically similar code fragments to a given query, without considering auxiliary or complementary code that may also be related to the query. The purpose of this work is to explore the existence of other kinds of related code beyond similar code, and discuss the usefulness of these related code for recommendation in practice.
+Code-to-code search engines focuses on retrieving syntactically or semantically similar code fragments to a given query, without considering auxiliary or complementary code that may also be related to the query. The goal of this work is to explore the existence of other kinds of related code beyond similar code, and discuss the usefulness of such related code for recommendation in practice.
 
 Co-occurring code is an interesting start point of exploring related code. We built an automated approach to identify, cluster, and rank common, co-occurring code. From detailed manual evaluation, we found 74\% of our sampled code show valid relevancy to the query, and this relevancy can be categorized into three types--{\em complementary}, {\em supplementary}, and {\em alternative} functionality. Our findings shows the benefit of recommending common-occurring code, beyond similar code. We also implemented a Chrome extension that demonstrates an application of our approach in practice. We experimented to show that other search engines cannot fulfill recommending related code fragments as we proposed. We are planning to perform more user study on our tool in near future.
 
