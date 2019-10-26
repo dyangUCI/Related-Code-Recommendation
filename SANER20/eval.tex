@@ -41,20 +41,11 @@ We find the following types of relevance in our sample set:
 \renewcommand\tabcolsep{3pt}
 		\begin{tabular}{ l|r|r } 
 			\hline
-<<<<<<< HEAD
 			Category & Top 1 & Top 3 \\\hline
 			Complementary method &  20 (50\%) & 55 (49\%)\\\hline 
 			Supplementary method &  18 (45\%) & 53 (47\%) \\ \hline
 			Different implementation &  2 (5\%) & 4 (3\%)\\ \hline
 			Total related methods & 40 & 112 \\\hline
-=======
-			{\sf Category} & {\sf Top 1} & {\sf Top 3} \\\hline
-			Complementary method &  20 (40\%) & 55 (37\%)\\\hline 
-			Supplementary method &  18 (36\%) & 53 (35\%) \\ \hline
-			Different implementation &  2 (4\%) & 4 (3\%)\\ \hline
-			Not related & 10 (20\%) & 38 (25\%)\\\hline
-			Total & 50 & 150 \\\hline
->>>>>>> 976052f491d4fd111427e08fca9376e560924cbb
 		\end{tabular}		
 	\end{center}
 
@@ -65,7 +56,7 @@ We find the following types of relevance in our sample set:
 
 Similarly, we find {\ttt decrypt} function for {\ttt encrypt} and {\ttt onPause} function for {\ttt onCreate} in Table \ref{tab:compl-examples}. The two methods in each pair do not have any direct function call association between them, but they complete each other with extra functionality and are often implemented together in real-life scenarios. 
 
-For the top related methods, half of them are complementary methods. 37\% of the sampled top 3 related methods belong to this category.
+For the top related methods, half of them are complementary methods. 49\% of the sampled top 3 related methods belong to this category.
 
 \subsubsection{Supplementary method} The related code serves as a helper function to the query, or vice versa. One may make function call to the other. For example the {\ttt merge} function for {\ttt sort}. {\ttt sort} calls {\ttt merge} as a helper function and cannot achieve functionality without it. 
 
