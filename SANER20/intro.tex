@@ -1,6 +1,5 @@
 \section{Introduction}
 \label{sec:intro}
-%\todo{color the code examples based on Java syntax. Be careful with the use of "related methods", "recommended methods", "common co-occurring methods"}
 Over the past decade, code search has emerged as an interesting, but
 challenging, topic to both industry and research communities. Various code search
 techniques have been proposed in the
@@ -60,9 +59,9 @@ Manually identifying co-occurring code is tedious and time-consuming,
 since some co-occurring code may be project-specific and thus not relevant to a given code query. 
 Therefore, we first build an automated approach to identify, cluster, and rank common, 
 co-occurring code given a code query.  
-Our approach uses a state-of-the-art clone detecor called SourcererCC~\cite{sajnani2016sourcerercc} to identify similar
+Our approach uses a state-of-the-art clone detector called SourcererCC~\cite{sajnani2016sourcerercc} to identify similar
 counterparts (i.e., clones) in a large code corpus. Then our approach contrasts surrounding code of those clones 
-and identify common code that are shared around mutiple clones.
+and identify common code that are shared around multiple clones.
 
 Using 21K Java code snippets from Stack Overflow
 as code queries, we automatically identify relevant code of these code queries in a large corpus of  50K GitHub projects with at least five stars. 
@@ -123,8 +122,8 @@ To further demonstrate this idea, we implement a Chrome extension called {\tool}
 %\todo{summarize the contributions}
 In summary, this paper makes the following contribution:
 \begin{itemize}
-\item We present a new code search method that recommends common, co-occuring code of a given code query, rather than only recommending similar code.
-\item We empirically show the prevalence of common, co-occurring code by quantifying the commonality of sorrounding code of GitHub clones. We also find that the majority of such co-occurring code fragments represent meanful functionality such as complementary, supplementary, or alternative functions, which should be recommended by modern code search engines.
+\item We present a new code search method that recommends common, co-occurring code of a given code query, rather than only recommending similar code.
+\item We empirically show the prevalence of common, co-occurring code by quantifying the commonality of surrounding code of GitHub clones. We also find that the majority of such co-occurring code fragments represent meaningful functionality such as complementary, supplementary, or alternative functions, which should be recommended by modern code search engines.
 \item We develop a Chrome extension called {\tool} to recommend related code during online code search and demonstrate that {\tool} is capable of recommending related code that cannot be identified by a state-of-the-art code search tool.
 %\item It retrieves a large dataset of commonly co-occurring code.
 %\item It provides a in-depth relevance analysis between the commonly co-occurring code with its original query. These code proved to be related and code should be considered for recommendation along with the similar ones.
@@ -133,4 +132,4 @@ In summary, this paper makes the following contribution:
 
 The rest of the paper is organized as follows: Section
 \ref{sec:approach} describes the approach for generating
-common co-occurring methods, with ranking. Section \ref{sec:eval} presents the manual analysis result of common co-occurring code in terms of its relevance to the original query. We also explore whether recommended code from  existing search engines can provide same relevance. \ref{sec:chrome} illustrates the instantiation of {\tool} as a chrome extension as well as a use scenario in a web browser. Section \ref{sec:related} describes and Section \ref{sec:conclude} concludes the paper.
+common, co-occurring methods, with ranking. Section \ref{sec:eval} presents the manual analysis result of common, co-occurring code in terms of its relevance to the original query. Section\ref{sec:chrome} illustrates the chrome extension {\tool} as well as a use scenario of it, and Section \ref{sec:comparison} explores whether recommended code from existing search engines can provide same relevance as results from {\tool}. Section \ref{sec:related} summarizes the related work and Section \ref{sec:conclude} concludes the paper.
