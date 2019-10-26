@@ -54,31 +54,22 @@
 \newcommand{\ttt}[1]{\tt\small{#1}}
 \newcommand{\tool}{{\ttt CodeAid}}
 \lstset{
-  language=Java,
-frame=lines,
-xleftmargin=15pt, 
-stepnumber=1, 
-numbers=left, 
-numbersep=5pt,
-stepnumber=1,
-numberstyle=\tiny\bf,%\color[gray]{0.777}, 
-belowcaptionskip=\bigskipamount,
-captionpos=b, 
-escapeinside={*'}{'*},
-tabsize=5,
-emphstyle={\bf},
-basicstyle=\scriptsize\ttfamily,
-keywordstyle=\color{javapurple}\bfseries,
-stringstyle=\color{javared},
-commentstyle=\color{javagreen},
-morecomment=[s][\color{javadocblue}]{/**}{*/},
-showspaces=false,
-columns=flexible,
-showstringspaces=false,
-morecomment=[l]{//},
-tabsize=2,
-morekeywords={, Package,Invariant,Field,Where,Assert,ToLc,Split,Msg,Immutable,<<<,eq,neq,not,has,Assert,AssertExists,Attribute,Uc,Lc,},
-breaklines=true
+	% numbers=left,
+	% numberstyle=\tiny,
+	% backgroundcolor=\color{light-gray},
+	basicstyle=\scriptsize\ttfamily,
+	breaklines=true,
+	breakatwhitespace=true,
+	captionpos=b,
+	columns=flexible,
+	escapeinside={(*@}{@*)},
+	frame=tb,
+	framerule=0.6pt,
+	% xleftmargin=\parindent,	
+	% xrightmargin=\parindent,
+	language=Java,
+	% numbersep=5pt,
+	showstringspaces=false
 }
 \newcommand{\explanation}[1]{
 	\parbox{0.45\textwidth}{
@@ -212,7 +203,7 @@ those potential matches for a given code query.
 
 We applied our approach to a large dataset of code queries collected
 from Stack Overflow snippets, and a very large code base of Java
-projects collected from GitHub.  We manually inspected a random sample of 50 commonly co-occurring code fragments and found 74\% of them represent relevant functionality that should be included in code search results.
+projects collected from GitHub.  We manually inspected a random sample of 50 commonly co-occurring code fragments and found 76\% of them represent relevant functionality that should be included in code search results.
 
 One limitation of {\tool} is that the recommendation power of {\tool} strongly correlates with the similarity behavior of the dataset. To retrieve related code fragments, {\tool} requires the query code to have similar counterparts in the search query corpus; it also asks for similar method pairs within search query corpus itself. 
 
